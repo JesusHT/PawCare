@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#B9DFF9" /> <!-- Cambia el color de fondo a azul -->
+    <corners android:radius="8dp" /> <!-- Puedes ajustar el radio de las esquinas si lo deseas -->
+    <stroke android:width="2dp" android:color="#00ECECEC" /> <!-- Ancho y color del borde -->
+</shape>
+
