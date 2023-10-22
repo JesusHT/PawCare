@@ -10,5 +10,7 @@ class ValidateData {
             val matcher = pattern.matcher(email)
             return matcher.matches()
         }
+
+
     }
 }

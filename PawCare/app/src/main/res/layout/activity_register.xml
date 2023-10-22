@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-
     <ImageView
         android:id="@+id/back"
         android:layout_width="wrap_content"
@@ -15,29 +14,24 @@
         android:src="@drawable/flecha_regreso"
         android:layout_marginTop="10dp"/>
 
-
     <ImageView
         android:id="@+id/gato"
         android:layout_width="165dp"
         android:layout_height="108dp"
         android:layout_marginHorizontal="292dp"
         android:layout_marginTop="121dp"
-        android:src="@drawable/deco_gato"
-
-
-        />
+        android:src="@drawable/deco_gato" />
 
     <TextView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="Registro"
-       android:textSize="30dp"
-       android:textStyle="bold"
-       android:textColor="#1D5D9B"
-       android:layout_marginTop="125dp"
-       android:textAlignment="center"
-       android:id="@+id/register"
-       />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registro"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#1D5D9B"
+        android:layout_marginTop="125dp"
+        android:textAlignment="center"
+        android:id="@+id/register" />
 
     <TextView
         android:layout_width="match_parent"
@@ -49,8 +43,30 @@
         android:textColor="#CEE8FA"
         android:layout_marginTop="3dp"
         android:textAlignment="center"
-        android:id="@+id/sub"
+        android:id="@+id/sub" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#FF0000"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/sub"
+        android:layout_marginHorizontal="30dp"
         />
+
+    <TextView
+        android:id="@+id/success_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sub"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#1A9108" />
 
     <EditText
         android:id="@+id/name"
@@ -68,8 +84,7 @@
         android:paddingBottom="10dp"
         android:textColorHint="#1D5D9B"
         android:textStyle="bold"
-        android:layout_marginHorizontal="30dp"
-        />
+        android:layout_marginHorizontal="30dp" />
 
     <EditText
         android:id="@+id/email"
@@ -87,8 +102,8 @@
         android:paddingBottom="10dp"
         android:textColorHint="#1D5D9B"
         android:textStyle="bold"
-        android:layout_marginHorizontal="30dp"
-        />
+        android:layout_marginHorizontal="30dp" />
+
     <EditText
         android:id="@+id/password"
         android:layout_width="350dp"
@@ -96,18 +111,18 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/email"
         android:background="@drawable/rounded_edittext"
-        android:drawableEnd="@drawable/password_icon"
         android:drawablePadding="10dp"
         android:drawableStart="@drawable/candado"
         android:hint="Contraseña"
-        android:inputType="textPassword|textVisiblePassword"
+        android:inputType="textPassword"
         android:paddingLeft="24dp"
         android:paddingTop="7dp"
         android:paddingBottom="10dp"
         android:paddingEnd="20dp"
         android:textColorHint="#1D5D9B"
         android:textStyle="bold"
-        android:layout_marginHorizontal="30dp"/>
+        android:layout_marginHorizontal="30dp" />
+
     <EditText
         android:id="@+id/confirm_passwd"
         android:layout_width="350dp"
@@ -115,111 +130,75 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/password"
         android:background="@drawable/rounded_edittext"
-        android:drawableEnd="@drawable/password_icon"
         android:drawablePadding="10dp"
         android:drawableStart="@drawable/candado"
         android:hint="Confirma tú contraseña"
-        android:inputType="textPassword|textVisiblePassword"
+        android:inputType="textPassword"
         android:paddingLeft="24dp"
         android:paddingTop="7dp"
         android:paddingBottom="10dp"
         android:paddingEnd="20dp"
         android:textColorHint="#1D5D9B"
         android:textStyle="bold"
-        android:layout_marginHorizontal="30dp"/>
+        android:layout_marginHorizontal="30dp" />
 
     <LinearLayout
+        android:id="@+id/content_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/confirm_passwd"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:id="@+id/privacity">
-    <TextView
-        android:id="@+id/terms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/confirm_passwd"
-        android:layout_marginStart="-6dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="Una vez iniciada sesión estás de acuerdo"
-        android:textAlignment="textStart"
-        android:textColor="#316DA5"
-        android:textStyle="bold"
-        /> <!-- Cambia #000000 por el color que desees -->
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="end">
 
-    <TextView
-        android:id="@+id/terms2"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-158dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="con los"
-        android:textAlignment="textEnd"
-        android:textColor="#75C1F5"
-        android:textStyle="bold"/> <!-- Cambia #000000 por el color que desees -->
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/privacity"
-        android:layout_marginTop="-27dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:id="@+id/priv2">
-
-        <TextView
-            android:id="@+id/terms3"
-            android:layout_width="280dp"
+        <CheckBox
+            android:id="@+id/showPasswordCheckBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_passwd"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="términos de uso como también condiciones "
-            android:textAlignment="textStart"
-            android:textColor="#84C7F5"
+            android:checked="false"
+            android:text="Mostrar contraseña"
+            android:textColor="#1D5D9A"
+            android:textStyle="bold"
+            android:layoutDirection="rtl"
+            android:layout_weight="0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/terms_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/confirm_passwd"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp">
+
+        <CheckBox
+            android:id="@+id/terms_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Acepto los "
+            android:textColor="#316DA5"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/terms4"
-            android:layout_width="7dp"
+            android:id="@+id/terms_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="y"
-            android:textAlignment="textEnd"
-            android:textColor="#1D5D9A"
-            android:textStyle="bold"
-            />
+            android:text="Términos y Condiciones"
+            android:textColor="#316DA5"
+            android:textStyle="bold" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/terms5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:text="políticas de privacidad"
-        android:textAlignment="center"
-        android:textColor="#8CCAF5"
-        android:textStyle="bold"
-        android:layout_below="@id/priv2"
-
-        />
 
     <Button
         android:id="@+id/sign_up"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/priv2"
+        android:layout_below="@id/terms_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#1D5D9A"
         android:text="Registrarse"
         android:textStyle="bold" />
+
 </RelativeLayout>
