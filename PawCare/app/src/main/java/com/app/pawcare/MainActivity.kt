@@ -94,7 +94,9 @@ class MainActivity : AppCompatActivity(), LoginListener {
 
     override fun onLoginResult(success: Boolean) {
         if (success) {
-            MessageUtils.showSuccess("Login successful")
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
         } else {
             MessageUtils.showError(Errors.ERROR_VALIDATE)
         }

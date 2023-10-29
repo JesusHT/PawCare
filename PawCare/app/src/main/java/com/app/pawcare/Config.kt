@@ -5,5 +5,7 @@ class Config {
         const val URL_MAIN  = "http://192.168.1.69/"
         const val URL_LOGIN = URL_MAIN + "/login/authenticate"
         const val URL_TERMS = URL_MAIN + "terminosycondiciones"
+        const val URL_TIPS  = URL_MAIN + "tips/gettips"
+        const val URL_IMG   = URL_MAIN + "public/img/"
     }
 }

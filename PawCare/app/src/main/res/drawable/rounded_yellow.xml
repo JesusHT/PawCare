@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FAEDAB" />
+    <!-- Especificamos el radio de las esquinas para redondearlas -->
+    <corners android:radius="20dp" />
+</shape>
