@@ -5,30 +5,48 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:background="@drawable/rounded_bottom_corners">
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_settings_24"/>
+
+            <ImageButton
+                android:id="@+id/notifications"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_notifications_24"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/petList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addPet"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY"
-        android:src="@drawable/rec_tangle" />
-
-    <ImageButton
-        android:id="@+id/notifications"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/baseline_notifications_24"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_marginHorizontal="370dp"
-        android:layout_marginTop="10dp"/>
-
-    <ImageButton
-        android:id="@+id/settings"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/baseline_settings_24"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_marginHorizontal="340dp"
-        android:layout_marginTop="10dp"/>
-
-
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/yellow"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_add_24" />
 </FrameLayout>

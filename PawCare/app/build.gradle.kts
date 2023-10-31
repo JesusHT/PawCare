@@ -47,6 +47,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.getbase:floatingactionbutton:1.10.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
