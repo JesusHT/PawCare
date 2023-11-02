@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">PawCare</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="arrow_back">arrow_back</string>
+    <string name="register_title">Registro</string>
+    <string name="register_subtitle">¡Crea una cuenta nueva!</string>
+
+    <string name="login_title">¡Bienvenido!</string>
+    <string name="login_subtitle">Inicia sesión con tú cuenta</string>
 </resources>

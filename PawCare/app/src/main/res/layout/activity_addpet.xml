@@ -1,265 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY"
-        android:src="@drawable/rec_tangle"
-        android:id="@+id/bluebar"
-        />
-    <TextView
-        android:layout_width="10000000dp"
-        android:layout_height="wrap_content"
-        android:text="Añadir nuevo perfil de mascotas"
-        android:textColor="#ffff"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textAlignment="textStart"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="10dp"
-        />
-
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/baseline_white_arrow_back_48"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="regreso"
-        android:layout_marginTop="-5dp"
-        android:layout_marginHorizontal="3dp"
-        />
-
-    <View
-        android:layout_width="350dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_background"
-        android:layout_marginHorizontal="30dp"
-        android:layout_below="@+id/bluebar"
-        android:id="@+id/upload_rectangle"
-        />
-    <ImageButton
-        android:id="@+id/upload"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="Subir imagen"
-        android:scaleType="center"
-        android:layout_marginTop="106dp"
-        android:src="@drawable/baseline_file_upload_64"
-        android:layout_marginHorizontal="180dp"
-        />
-    <TextView
-        android:layout_width="860dp"
-        android:layout_height="40dp"
-        android:text="Sube una imagen de tú mascota"
-        android:layout_marginTop="10dp"
-        android:textSize="19dp"
-        android:textAlignment="center"
-        android:layout_marginHorizontal="40dp"
-        android:textColor="#1D5D9B"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold"
-        android:layout_below="@id/upload"
-        />
-
-
-    <View
-        android:layout_width="350dp"
-        android:layout_height="106dp"
-        android:background="@drawable/rounded_yellow"
-        android:layout_marginTop="13dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_below="@id/upload_rectangle"
-        android:id="@+id/select"
-
-        />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
-        android:fontFamily="sans-serif"
-        android:text="Selecciona el tipo de mascota"
-        android:textAlignment="center"
-        android:textColor="#C49E27"
-        android:textStyle="bold"/>
-
-    <ImageButton
-        android:id="@+id/DOG"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
-        android:layout_marginTop="269dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="DOG"
-        android:scaleType="center"
-        android:src="@drawable/icono_perro"
-        tools:ignore="TouchTargetSizeCheck" />
-    <TextView
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
-        android:text="Perro"
-        android:layout_marginTop="307dp"
-        android:layout_marginHorizontal="108dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="#717476"
-        />
-
-    <ImageButton
-        android:id="@+id/Cat"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="250dp"
-        android:layout_marginTop="269dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:contentDescription="DOG"
-        android:scaleType="center"
-        android:src="@drawable/icono_mascotas"
-        tools:ignore="TouchTargetSizeCheck" />
-    <TextView
-        android:layout_width="33dp"
-        android:layout_height="wrap_content"
-        android:text="Gato"
-        android:layout_marginTop="307dp"
-        android:layout_marginHorizontal="260dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="#717476"
-        />
+    android:layout_height="match_parent"
+    tools:context=".AddPetActivity">
 
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_below="@id/select"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:background="@drawable/rounded_bottom_corners">
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="315dp"
-            android:layout_marginTop="-190dp"
-            android:background="@drawable/rounded_background"
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/baseline_white_arrow_back_24"/>
 
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Añadir nueva mascota"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="360dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_style"
-        android:id="@+id/namepet"
-        android:hint="Nombre de tú mascota"
-        android:inputType="textPersonName"
-        android:textColorHint="#1D5D9A"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:drawableStart="@drawable/baseline_primary_dog_24"
-        android:drawablePadding="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
-        />
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:id="@+id/addImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rounded_background"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_file_upload_64"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Sube una imagen de tú mascota"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_radioButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/addImage"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_yellow"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selecciona el tipo de mascota"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="#C59F27"
+                android:textAlignment="center"
+                android:layout_marginBottom="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/typePet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/dog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/icon_dog"/>
+
+                <RadioButton
+                    android:id="@+id/cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/icon_cat"
+                    android:background="@drawable/selected_radio_button_cat"/>
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_style"
-        android:id="@+id/racepet"
-        android:hint="Raza"
-        android:inputType="text"
-        android:textColorHint="#1D5D9A"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_below="@id/namepet"
-        android:drawableStart="@drawable/baseline_star_24"
-        android:drawablePadding="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
-        />
+        android:layout_below="@id/content_radioButtons">
 
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_style"
-        android:id="@+id/weightpet"
-        android:hint="Peso"
-        android:inputType="numberDecimal"
-        android:textColorHint="#1D5D9A"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_below="@id/racepet"
-        android:drawableStart="@drawable/baseline_scale_24"
-        android:drawablePadding="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        />
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_style"
-        android:id="@+id/sexpet"
-        android:hint="Sexo"
-        android:inputType="text"
-        android:textColorHint="#1D5D9A"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_below="@id/weightpet"
-        android:drawableStart="@drawable/baseline_sex_24"
-        android:drawablePadding="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
-        />
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_style"
-        android:id="@+id/birthday"
-        android:hint="Cumpleaños"
-        android:inputType="datetime"
-        android:textColorHint="#1D5D9A"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_below="@id/sexpet"
-        android:drawableStart="@drawable/baseline_cake_24"
-        android:drawablePadding="8dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="14dp"
+            <EditText
+                android:id="@+id/namePet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_style"
+                android:padding="10dp"
+                android:hint="Nombre de mascota"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/baseline_primary_dog_24" />
 
-        />
+            <EditText
+                android:id="@+id/raza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_style"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Raza"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/baseline_star_24"/>
 
-    <Button
-        android:layout_width="270dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="690dp"
-        android:backgroundTint="@color/primary"
-        android:text="Guardar"
-        android:textSize="16dp"
-        android:textColor="@color/white"
-        android:layout_marginHorizontal="90dp"
-        android:id="@+id/save"/>
+            <EditText
+                android:id="@+id/peso"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_style"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Peso"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/baseline_scale_24"/>
 
+            <EditText
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_style"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Cumpleaños"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/baseline_cake_24"
+                android:focusable="false"
+                android:clickable="true"/>
+
+            <Spinner
+                android:id="@+id/sexSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_style"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/form"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Guardar"
+            android:textColor="@color/white"/>
+    </LinearLayout>
 </RelativeLayout>

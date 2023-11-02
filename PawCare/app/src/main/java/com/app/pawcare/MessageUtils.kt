@@ -45,4 +45,9 @@ object MessageUtils {
         successTextView?.text = ""
         successTextView?.visibility = View.GONE
     }
+
+    fun clearTextMessages(){
+        errorTextView?.text = ""
+        successTextView?.text = ""
+    }
 }

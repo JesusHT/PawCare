@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex_options">
+        <item>Seleccione el sexo de su mascota</item>
+        <item>Hembra</item>
+        <item>Macho</item>
+    </string-array>
+</resources>

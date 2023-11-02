@@ -3,63 +3,60 @@ package com.app.pawcare
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.app.pawcare.databinding.ActivityRegisterBinding
+import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
-
-    private lateinit var showPasswordCheckBox: CheckBox
-    private lateinit var passwordEditText: EditText
-    private lateinit var comfirmPasswordEditText: EditText
-    private lateinit var errorTextView: TextView
-    private lateinit var successTextView: TextView
+    private lateinit var b: ActivityRegisterBinding
+    private var userExists: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        b = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(b.root)
 
-        showPasswordCheckBox    = findViewById(R.id.showPasswordCheckBox)
-        passwordEditText        = findViewById(R.id.password)
-        comfirmPasswordEditText = findViewById(R.id.confirm_passwd)
-        errorTextView           = findViewById(R.id.error_message)
-        successTextView         = findViewById(R.id.success_message)
+        MessageUtils.setErrorView(b.errorMessage)
+        MessageUtils.setSuccessView(b.successMessage)
 
-        showPasswordCheckBox.setOnCheckedChangeListener { _, _ ->
+        b.showPasswordCheckBox.setOnCheckedChangeListener { _, _ ->
             togglePasswordVisibility()
         }
 
-        MessageUtils.setErrorView(errorTextView)
-        MessageUtils.setSuccessView(successTextView)
-
-        val backButtonImageView: ImageView = findViewById(R.id.back)
-        backButtonImageView.setOnClickListener {
+        b.back.setOnClickListener {
             onBackPressed()
             finish()
         }
 
-        val termsTextView: TextView = findViewById(R.id.terms_text)
-        termsTextView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val url = Config.URL_TERMS
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
-            }
-        })
+        b.termsText.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.URL_TERMS))
+            startActivity(intent)
+        }
 
-        val termsCheckBox = findViewById<CheckBox>(R.id.terms_checkbox)
-        termsCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-            } else {
+        b.termsCheckbox.setOnCheckedChangeListener { _, _ ->
+
+        }
+
+        b.save.setOnClickListener {
+            val name            = b.name.text.toString()
+            val email           = b.email.text.toString()
+            val password        = b.password.text.toString()
+            val confirmPassword = b.confirmPasswd.text.toString()
+            val termsAccepted   = b.termsCheckbox.isChecked
+
+            if (validateFields(name, email, password, confirmPassword, termsAccepted)) {
+                MessageUtils.showSuccess("Salio con madre")
+                //val intent = Intent(this, CaptchaActivity::class.java)
+                //intent.putExtra("email", email)
+                //intent.putExtra("name", name)
+                //intent.putExtra("password", password)
+                //startActivity(intent)
             }
         }
     }
 
     private fun togglePasswordVisibility() {
-        val isPasswordVisible = showPasswordCheckBox.isChecked
+        val isPasswordVisible = b.showPasswordCheckBox.isChecked
         val inputType = if (isPasswordVisible) {
             android.text.InputType.TYPE_CLASS_TEXT or
                     android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -67,8 +64,56 @@ class RegisterActivity : AppCompatActivity() {
             android.text.InputType.TYPE_CLASS_TEXT or
                     android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
-        passwordEditText.inputType = inputType
-        comfirmPasswordEditText.inputType = inputType
+        b.password.inputType      = inputType
+        b.confirmPasswd.inputType = inputType
+    }
+
+    private fun validateFields (
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
+        termsAccepted: Boolean
+    ): Boolean {
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            MessageUtils.showError(Errors.ERROR_DATA_EMPTY)
+            return false
+        } else if (!ValidateData.isValidName(name)) {
+            MessageUtils.showError(Errors.ERROR_INVALID_NAME)
+            return false
+        } else if (!ValidateData.isValidEmail(email)) {
+            MessageUtils.showError(Errors.ERROR_INVALID_EMAIL)
+            return false
+        } else if (!ValidateData.isValidPassword(password)) {
+            MessageUtils.showError(Errors.ERROR_INVALID_PASSWORD)
+            return false
+        } else if (!ValidateData.isValidConfirmation(password, confirmPassword)) {
+            MessageUtils.showError(Errors.ERROR_PASSWORD_MISMATCH)
+            return false
+        } else if (!termsAccepted) {
+            MessageUtils.showError(Errors.ERROR_TERMS_NOT_ACCEPTED)
+            return false
+        }
+
+        validateEmail(email)
+
+        if (userExists){
+            MessageUtils.showError(Errors.ERROR_EMAIL_EXIST)
+            return false
+        }
+
+        MessageUtils.clearMessages()
+        return true
+    }
+
+    private fun validateEmail(email: String) {
+        val postData = "email=$email"
+
+        JsonPostQuery(Config.URL_VALIDATE_USER, postData) { result ->
+            val jsonObject = JSONObject(result)
+            userExists = jsonObject.optBoolean("userExist")
+        }.execute()
     }
 
 }
+
