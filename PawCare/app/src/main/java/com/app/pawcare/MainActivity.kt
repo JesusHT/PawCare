@@ -1,32 +1,30 @@
 package com.app.pawcare
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.app.pawcare.databinding.ActivityMainBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), LoginListener {
-
+class MainActivity : AppCompatActivity() {
     private lateinit var b : ActivityMainBinding
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        if (isUserLoggedIn()) {
-            loadViewHome()
-        }
-
         MessageUtils.setErrorView(b.errorMessage)
         MessageUtils.setSuccessView(b.successMessage)
 
-        b.logIn.setOnClickListener {
-            onLoginClick(it)
+        if (isUserLoggedIn()) {
+            loadViewHome()
         }
 
         b.showPasswordCheckBox.setOnCheckedChangeListener { _, _ ->
@@ -34,96 +32,84 @@ class MainActivity : AppCompatActivity(), LoginListener {
         }
 
         b.signUp.setOnClickListener {
-            onSignUpClick(it)
+            onSignUpClick()
+        }
+
+        b.logIn.setOnClickListener {
+            val email    = b.email.text.toString().trim()
+            val password = b.password.text.toString().trim()
+
+            if (validFields(email, password)) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    val success = authenticateUser(email, password)
+                    if (success) {
+                        saveSessionState(true, Login.getEmail(), Login.getUsername(), Login.getId())
+                        loadViewHome()
+                    } else {
+                        MessageUtils.showError(Errors.ERROR_VALIDATE)
+                        clearInputs()
+                    }
+                }
+            }
         }
     }
 
-    fun onSignUpClick(view: View) {
+    fun onSignUpClick() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+        finish()
     }
-
-    fun onLoginClick(view: View) {
-        val email    = b.email.text.toString().trim()
-        val password = b.password.text.toString().trim()
-
+    private fun validFields(email: String, password: String) : Boolean{
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             MessageUtils.showError(Errors.ERROR_DATA_EMPTY)
             clearInputs()
-            return
+            return false
         }
 
         if (!ValidateData.isValidEmail(email)) {
             MessageUtils.showError(Errors.ERROR_EMAIL)
             clearInputs()
-            return
+            return false
         }
 
-        val loginTask = Login(this)
-        loginTask.execute(Pair(email, password))
+        return true
     }
-
-    private fun togglePasswordVisibility() {
-        val isPasswordVisible = b.showPasswordCheckBox.isChecked
-        val inputType = if (isPasswordVisible) {
-            android.text.InputType.TYPE_CLASS_TEXT or
-                    android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        } else {
-            android.text.InputType.TYPE_CLASS_TEXT or
-                    android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
-
-        b.password.inputType = inputType
-    }
-
-    private fun clearInputs() {
-        b.email.text.clear()
-        b.password.text.clear()
-    }
-
-    private fun loadViewHome(){
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    override fun onLoginResult(success: Boolean) {
-        if (success) {
-
-            val email = b.email.text.toString().trim()
-            val postData = "email=$email"
-
-            JsonPostQuery(Config.URL_USER, postData) { result ->
-                val userModel = jsonToUserModel(result)
-
-                if (userModel != null) {
-                    val id        = userModel.id
-                    val username  = userModel.username
-                    val email     = userModel.email
-
-                    saveSessionState(true, email, username, id)
-                }
-            }.execute()
-
-            loadViewHome()
-
-        } else {
-            MessageUtils.showError(Errors.ERROR_VALIDATE)
-        }
-    }
-
     private fun saveSessionState(isLoggedIn: Boolean, email: String, username: String, id: Int) {
-        val SessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
-        val editor = SessionVars.edit()
+        val sessionVars = getSharedPreferences("SessionVars", MODE_PRIVATE)
+        val editor = sessionVars.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.putString("email", email)
         editor.putString("username", username)
         editor.putInt("id",id)
         editor.apply()
     }
-
     private fun isUserLoggedIn(): Boolean {
-        val SessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
-        return SessionVars.getBoolean("isLoggedIn", false)
+        val sessionVars = getSharedPreferences("SessionVars", MODE_PRIVATE)
+        return sessionVars.getBoolean("isLoggedIn", false)
+    }
+    private fun togglePasswordVisibility() {
+        val isPasswordVisible = b.showPasswordCheckBox.isChecked
+        val inputType = if (isPasswordVisible) {
+            InputType.TYPE_CLASS_TEXT or
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else {
+            InputType.TYPE_CLASS_TEXT or
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+
+        b.password.inputType = inputType
+    }
+    private fun clearInputs() {
+        b.email.text.clear()
+        b.password.text.clear()
+    }
+    private fun loadViewHome(){
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+    private suspend fun authenticateUser(email: String, password: String): Boolean {
+        Login.authenticate(email, password)
+        return Login.getAccess()
     }
 }

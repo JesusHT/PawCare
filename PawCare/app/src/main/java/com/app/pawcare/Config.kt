@@ -4,7 +4,7 @@ class Config {
 
     // If you want to add a new url, you need to put "$URL_MAIN/controller/" or "$URL_MAIN/controller/function"
     companion object {
-        const val URL_MAIN          = "http://192.168.1.69"
+        private const val URL_MAIN  = "https://pawcare.mx"
         const val URL_LOGIN         = "$URL_MAIN/login/authenticate"
         const val URL_USER          = "$URL_MAIN/login/getuser"
         const val URL_TERMS         = "$URL_MAIN/terminosycondiciones"

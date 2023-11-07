@@ -5,12 +5,16 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityRegisterBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var b: ActivityRegisterBinding
-    private var userExists: Boolean = false
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivityRegisterBinding.inflate(layoutInflater)
@@ -24,7 +28,8 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         b.back.setOnClickListener {
-            onBackPressed()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
 
@@ -45,16 +50,27 @@ class RegisterActivity : AppCompatActivity() {
             val termsAccepted   = b.termsCheckbox.isChecked
 
             if (validateFields(name, email, password, confirmPassword, termsAccepted)) {
-                MessageUtils.showSuccess("Salio con madre")
-                //val intent = Intent(this, CaptchaActivity::class.java)
-                //intent.putExtra("email", email)
-                //intent.putExtra("name", name)
-                //intent.putExtra("password", password)
-                //startActivity(intent)
+                GlobalScope.launch(Dispatchers.Main) {
+                    val success = validateEmail(email)
+                    if (success){
+                        loadViewCaptcha(email, name, password)
+                    } else {
+                        MessageUtils.showError(Errors.ERROR_EMAIL_EXIST)
+                    }
+                }
             }
         }
     }
 
+    private fun loadViewCaptcha(email:String, name:String, password: String){
+        val intent = Intent(this, CaptchaActivity::class.java)
+        intent.putExtra("email", email)
+        intent.putExtra("name", name)
+        intent.putExtra("password", password)
+        intent.putExtra("typeAction", "Register")
+        startActivity(intent)
+        finish()
+    }
     private fun togglePasswordVisibility() {
         val isPasswordVisible = b.showPasswordCheckBox.isChecked
         val inputType = if (isPasswordVisible) {
@@ -67,14 +83,7 @@ class RegisterActivity : AppCompatActivity() {
         b.password.inputType      = inputType
         b.confirmPasswd.inputType = inputType
     }
-
-    private fun validateFields (
-        name: String,
-        email: String,
-        password: String,
-        confirmPassword: String,
-        termsAccepted: Boolean
-    ): Boolean {
+    private fun validateFields ( name: String, email: String, password: String, confirmPassword: String, termsAccepted: Boolean): Boolean {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             MessageUtils.showError(Errors.ERROR_DATA_EMPTY)
             return false
@@ -95,25 +104,15 @@ class RegisterActivity : AppCompatActivity() {
             return false
         }
 
-        validateEmail(email)
-
-        if (userExists){
-            MessageUtils.showError(Errors.ERROR_EMAIL_EXIST)
-            return false
-        }
-
         MessageUtils.clearMessages()
         return true
     }
-
-    private fun validateEmail(email: String) {
+    private suspend fun validateEmail(email: String): Boolean{
         val postData = "email=$email"
+        val result = JsonPostQuery(Config.URL_VALIDATE_USER, postData).execute()
+        val jsonObject = JSONObject(result)
 
-        JsonPostQuery(Config.URL_VALIDATE_USER, postData) { result ->
-            val jsonObject = JSONObject(result)
-            userExists = jsonObject.optBoolean("userExist")
-        }.execute()
+        return jsonObject.optBoolean("userExist")
     }
-
 }
 

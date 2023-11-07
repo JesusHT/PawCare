@@ -1,6 +1,6 @@
 package com.app.pawcare
 data class Tips (
-    val IdTip   : Int,
+    val idTip   : Int,
     val title   : String,
     val author  : String,
     val type    : String,

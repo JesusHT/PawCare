@@ -16,5 +16,6 @@ class Errors {
         const val ERROR_TERMS_NOT_ACCEPTED = "Debes aceptar los términos y condiciones para continuar."
         const val ERROR_VALIDATION_FAILED  = "Verificación de datos fallida. Por favor, revisa los campos e inténtalo de nuevo."
         const val ERROR_CAPTCHA            = "Código incorrecto. Intenta de nuevo."
+        const val ERROR_CREATE_ACCOUNT     = "Error al crear la cuenta. Intenta de nuevo."
     }
 }

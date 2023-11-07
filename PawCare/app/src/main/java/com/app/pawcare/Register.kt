@@ -1,20 +1,20 @@
 package com.app.pawcare
 
-import android.os.AsyncTask
+import org.json.JSONObject
 
-class Register(private val listener: RegisterListener) : AsyncTask<Triple<String, String, String>, Void, Boolean>() {
-    override fun doInBackground(vararg params: Triple<String, String, String>): Boolean {
-        val email    = params[0].first
-        val password = params[0].second
-        val username = params[0].third
+object Register {
+    private var status: Boolean = false
 
-        val url = Config.URL_REGISTER
-        val postParams = mapOf("username" to username,"email" to email, "pass" to password)
-
-        return ApiQuery.sendPostRequest(url, postParams)
+    suspend fun createNewAccount(email: String, username: String, password: String){
+        val postData   = "email=$email&pass=$password&name=$username"
+        val result     = JsonPostQuery(Config.URL_REGISTER, postData).execute()
+        val jsonObject = JSONObject(result)
+        setStatus(jsonObject.optBoolean("status"))
     }
-
-    override fun onPostExecute(result: Boolean) {
-        listener.onRegisterResult(result)
+    private fun setStatus(status: Boolean){
+        this.status = status
+    }
+    fun getStatus(): Boolean{
+        return this.status
     }
 }

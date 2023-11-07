@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.app.pawcare.databinding.ItemTipBinding
-import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso
 
 class TipsAdapter(private val context: TipsFragment, private val arrayList: List<Tips>) : BaseAdapter(){
 
@@ -23,7 +23,7 @@ class TipsAdapter(private val context: TipsFragment, private val arrayList: List
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val b = ItemTipBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         var convertView = convertView
         convertView = b.root
