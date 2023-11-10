@@ -1,5 +1,5 @@
 package com.app.pawcare
-data class Tips (
+data class TipsModel (
     val idTip   : Int,
     val title   : String,
     val author  : String,

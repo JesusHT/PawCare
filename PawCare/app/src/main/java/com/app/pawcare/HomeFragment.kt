@@ -2,34 +2,26 @@ package com.app.pawcare
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextMenu
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.app.pawcare.databinding.ActivityHomeBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.databinding.FragmentHomeBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var b: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         b = FragmentHomeBinding.inflate(inflater, container, false)
         return b.root
     }
@@ -51,25 +43,46 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireActivity(), NotificationsActivity::class.java)
             requireActivity().startActivity(intent)
         }
+
+        val listView = b.recyclerView
+        val petsModelLists = arrayListOf(
+            PetsModel(1, "Chito", "Cat", "photo_cat.png", 5, "Male", "2020-03-15"),
+            PetsModel(2, "Gato", "Cat", "photo_cat.png", 5, "Male", "2020-04-15"),
+            PetsModel(3, "Max", "Dog", "photo_dog.png", 10, "Male", "2018-07-10"),
+            PetsModel(4, "Garfield", "Dog", "photo_dog.png", 8, "Male", "2019-02-25")
+        )
+        initView(petsModelLists)
+        listView.setOnCreateContextMenuListener(this)
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun initView(pets: List<PetsModel>) {
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.recyclerView)
+        if (recyclerView.adapter == null) {
+            val adapter = ViewPetsAdapter(pets)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private suspend fun getTips(): List<PetsModel> {
+        return withContext(Dispatchers.IO) {
+            val result = JsonQuery(Config.URL_TIPS).execute()
+            return@withContext parseJsonToTipsList(result)
+        }
+    }
+
+    private fun parseJsonToTipsList(json: String): List<PetsModel> {
+        val gson = Gson()
+        return gson.fromJson(json, object : TypeToken<List<PetsModel>>() {}.type)
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        requireActivity().menuInflater.inflate(R.menu.contextual_menu, menu)
+        super.onCreateContextMenu(menu, v, menuInfo)
     }
 }
