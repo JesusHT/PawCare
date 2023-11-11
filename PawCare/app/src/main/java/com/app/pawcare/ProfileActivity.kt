@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.app.pawcare.databinding.ActivityProfileBinding
 
 class ProfileActivity : AppCompatActivity() {
@@ -19,17 +18,15 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        b.logout.setOnClickListener {
-            logout()
-        }
+        b.logout.setOnClickListener { logout() }
 
         loadUserProfile()
     }
 
     private fun loadUserProfile() {
-        val SessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
-        b.username.text = SessionVars.getString("email", null)
-        b.email.text    = SessionVars.getString("username", null)
+        val sessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
+        b.username.text = sessionVars.getString("email", null)
+        b.email.text    = sessionVars.getString("username", null)
     }
 
     private fun logout() {

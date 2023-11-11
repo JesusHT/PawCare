@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.pawcare.adapters.ViewPetsAdapter
+import com.app.pawcare.api.JsonQuery
+import com.app.pawcare.config.Config
+import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.FragmentHomeBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

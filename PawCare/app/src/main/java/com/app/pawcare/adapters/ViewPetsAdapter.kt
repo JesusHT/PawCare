@@ -1,4 +1,4 @@
-package com.app.pawcare
+package com.app.pawcare.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.app.pawcare.R
+import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.PetItemBinding
 
 class ViewPetsAdapter(private val list: List<PetsModel>) :  RecyclerView.Adapter<ViewPetsAdapter.PetsViewHolder>() {

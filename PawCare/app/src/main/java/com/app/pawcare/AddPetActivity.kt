@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityAddpetBinding
 import java.util.Calendar

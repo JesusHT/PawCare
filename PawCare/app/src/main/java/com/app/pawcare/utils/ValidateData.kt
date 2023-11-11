@@ -1,6 +1,5 @@
-package com.app.pawcare
+package com.app.pawcare.utils
 
-import android.text.BoringLayout
 import java.util.regex.Pattern
 class ValidateData {
     companion object {

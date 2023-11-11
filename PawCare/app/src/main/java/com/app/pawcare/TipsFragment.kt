@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.pawcare.adapters.ViewTipsAdapter
+import com.app.pawcare.api.JsonQuery
+import com.app.pawcare.config.Config
+import com.app.pawcare.models.TipsModel
+import com.app.pawcare.utils.Network
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +30,7 @@ class TipsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return if (NetworkUtils.isNetworkAvailable(requireContext())) {
+        return if (Network.isNetworkAvailable(requireContext())) {
             inflater.inflate(R.layout.fragment_tips, container, false)
         } else {
             inflater.inflate(R.layout.fragment_wifi, container, false)
@@ -39,7 +44,7 @@ class TipsFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        if (NetworkUtils.isNetworkAvailable(requireContext())) {
+        if (Network.isNetworkAvailable(requireContext())) {
             lifecycleScope.launch(Dispatchers.Main) {
                 try {
                     val tips = getTips()

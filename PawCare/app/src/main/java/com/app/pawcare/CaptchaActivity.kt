@@ -3,7 +3,12 @@ package com.app.pawcare
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.app.pawcare.api.JsonPostQuery
+import com.app.pawcare.config.Config
 import com.app.pawcare.databinding.ActivityCaptchaBinding
+import com.app.pawcare.users.Register
+import com.app.pawcare.utils.Errors
+import com.app.pawcare.utils.Messages
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,8 +29,8 @@ class CaptchaActivity : AppCompatActivity() {
         b = ActivityCaptchaBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        MessageUtils.setErrorView(b.errorMessage)
-        MessageUtils.setSuccessView(b.successMessage)
+        Messages.setErrorView(b.errorMessage)
+        Messages.setSuccessView(b.successMessage)
 
         val typeAction  = intent.getStringExtra("typeAction")
 
@@ -45,16 +50,16 @@ class CaptchaActivity : AppCompatActivity() {
                         val success = createAccount(email, username, password)
                         if (success) {
                             loadSuccessView()
-                            MessageUtils.showSuccess("Cuenta creada con exito")
+                            Messages.showSuccess("Cuenta creada con exito")
                         } else {
-                            MessageUtils.showError(Errors.ERROR_CREATE_ACCOUNT)
+                            Messages.showError(Errors.ERROR_CREATE_ACCOUNT)
                         }
                     }
                 } else {
-                    MessageUtils.showSuccess("Olvido la cotraseña")
+                    Messages.showSuccess("Olvido la cotraseña")
                 }
             } else {
-                MessageUtils.showError(Errors.ERROR_CAPTCHA)
+                Messages.showError(Errors.ERROR_CAPTCHA)
             }
         }
 
@@ -90,7 +95,7 @@ class CaptchaActivity : AppCompatActivity() {
 
             true
         } else {
-            MessageUtils.showError(Errors.ERROR_CAPTCHA)
+            Messages.showError(Errors.ERROR_CAPTCHA)
             false
         }
     }
@@ -99,9 +104,9 @@ class CaptchaActivity : AppCompatActivity() {
             if (reSendCounter < 3) {
                 reSendCounter++
                 createNewCode()
-                MessageUtils.showSuccess("Código reenviado ($reSendCounter de 3)")
+                Messages.showSuccess("Código reenviado ($reSendCounter de 3)")
             } else {
-                MessageUtils.showError("No se puede reenviar más códigos")
+                Messages.showError("No se puede reenviar más códigos")
                 b.reload.isEnabled = false
             }
         }

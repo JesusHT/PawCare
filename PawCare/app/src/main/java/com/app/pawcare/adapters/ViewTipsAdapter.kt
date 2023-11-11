@@ -1,4 +1,4 @@
-package com.app.pawcare
+package com.app.pawcare.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -6,12 +6,15 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.pawcare.databinding.ItemTipBinding
+import com.app.pawcare.config.Config
+import com.app.pawcare.R
+import com.app.pawcare.models.TipsModel
+import com.app.pawcare.databinding.TipItemBinding
 import com.squareup.picasso.Picasso
 
 class ViewTipsAdapter(private val list: List<TipsModel>) : RecyclerView.Adapter<ViewTipsAdapter.TipsViewHolder>() {
 
-    class TipsViewHolder(private val b: ItemTipBinding, private val context: Context) :
+    class TipsViewHolder(private val b: TipItemBinding, private val context: Context) :
         RecyclerView.ViewHolder(b.root) {
 
         fun bind(tip: TipsModel) {
@@ -51,7 +54,7 @@ class ViewTipsAdapter(private val list: List<TipsModel>) : RecyclerView.Adapter<
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipsViewHolder {
         val context = parent.context
         return TipsViewHolder(
-            ItemTipBinding.inflate(LayoutInflater.from(context), parent, false),
+            TipItemBinding.inflate(LayoutInflater.from(context), parent, false),
             context
         )
     }

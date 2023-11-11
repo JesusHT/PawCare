@@ -1,4 +1,4 @@
-package com.app.pawcare
+package com.app.pawcare.models
 
 data class PetsModel(
     val idPet : Int,

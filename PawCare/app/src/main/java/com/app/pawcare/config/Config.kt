@@ -1,4 +1,4 @@
-package com.app.pawcare
+package com.app.pawcare.config
 
 class Config {
 

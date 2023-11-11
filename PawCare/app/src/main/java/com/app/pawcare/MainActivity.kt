@@ -6,6 +6,10 @@ import android.text.InputType
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityMainBinding
+import com.app.pawcare.users.Login
+import com.app.pawcare.utils.Errors
+import com.app.pawcare.utils.Messages
+import com.app.pawcare.utils.ValidateData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        MessageUtils.setErrorView(b.errorMessage)
-        MessageUtils.setSuccessView(b.successMessage)
+        Messages.setErrorView(b.errorMessage)
+        Messages.setSuccessView(b.successMessage)
 
         if (isUserLoggedIn()) {
             loadViewHome()
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                         saveSessionState(true, Login.getEmail(), Login.getUsername(), Login.getId())
                         loadViewHome()
                     } else {
-                        MessageUtils.showError(Errors.ERROR_VALIDATE)
+                        Messages.showError(Errors.ERROR_VALIDATE)
                         clearInputs()
                     }
                 }
@@ -61,13 +65,13 @@ class MainActivity : AppCompatActivity() {
     }
     private fun validFields(email: String, password: String) : Boolean{
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            MessageUtils.showError(Errors.ERROR_DATA_EMPTY)
+            Messages.showError(Errors.ERROR_DATA_EMPTY)
             clearInputs()
             return false
         }
 
         if (!ValidateData.isValidEmail(email)) {
-            MessageUtils.showError(Errors.ERROR_EMAIL)
+            Messages.showError(Errors.ERROR_EMAIL)
             clearInputs()
             return false
         }

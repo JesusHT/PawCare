@@ -4,7 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.app.pawcare.api.JsonPostQuery
+import com.app.pawcare.config.Config
 import com.app.pawcare.databinding.ActivityRegisterBinding
+import com.app.pawcare.utils.Errors
+import com.app.pawcare.utils.Messages
+import com.app.pawcare.utils.ValidateData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,8 +25,8 @@ class RegisterActivity : AppCompatActivity() {
         b = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        MessageUtils.setErrorView(b.errorMessage)
-        MessageUtils.setSuccessView(b.successMessage)
+        Messages.setErrorView(b.errorMessage)
+        Messages.setSuccessView(b.successMessage)
 
         b.showPasswordCheckBox.setOnCheckedChangeListener { _, _ ->
             togglePasswordVisibility()
@@ -38,9 +43,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        b.termsCheckbox.setOnCheckedChangeListener { _, _ ->
-
-        }
+        b.termsCheckbox.setOnCheckedChangeListener { _, _ -> }
 
         b.save.setOnClickListener {
             val name            = b.name.text.toString()
@@ -55,7 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                     if (success){
                         loadViewCaptcha(email, name, password)
                     } else {
-                        MessageUtils.showError(Errors.ERROR_EMAIL_EXIST)
+                        Messages.showError(Errors.ERROR_EMAIL_EXIST)
                     }
                 }
             }
@@ -85,26 +88,26 @@ class RegisterActivity : AppCompatActivity() {
     }
     private fun validateFields ( name: String, email: String, password: String, confirmPassword: String, termsAccepted: Boolean): Boolean {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            MessageUtils.showError(Errors.ERROR_DATA_EMPTY)
+            Messages.showError(Errors.ERROR_DATA_EMPTY)
             return false
         } else if (!ValidateData.isValidName(name)) {
-            MessageUtils.showError(Errors.ERROR_INVALID_NAME)
+            Messages.showError(Errors.ERROR_INVALID_NAME)
             return false
         } else if (!ValidateData.isValidEmail(email)) {
-            MessageUtils.showError(Errors.ERROR_INVALID_EMAIL)
+            Messages.showError(Errors.ERROR_INVALID_EMAIL)
             return false
         } else if (!ValidateData.isValidPassword(password)) {
-            MessageUtils.showError(Errors.ERROR_INVALID_PASSWORD)
+            Messages.showError(Errors.ERROR_INVALID_PASSWORD)
             return false
         } else if (!ValidateData.isValidConfirmation(password, confirmPassword)) {
-            MessageUtils.showError(Errors.ERROR_PASSWORD_MISMATCH)
+            Messages.showError(Errors.ERROR_PASSWORD_MISMATCH)
             return false
         } else if (!termsAccepted) {
-            MessageUtils.showError(Errors.ERROR_TERMS_NOT_ACCEPTED)
+            Messages.showError(Errors.ERROR_TERMS_NOT_ACCEPTED)
             return false
         }
 
-        MessageUtils.clearMessages()
+        Messages.clearMessages()
         return true
     }
     private suspend fun validateEmail(email: String): Boolean{

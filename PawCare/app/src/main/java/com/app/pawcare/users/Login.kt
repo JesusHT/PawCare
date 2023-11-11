@@ -1,5 +1,7 @@
-package com.app.pawcare
+package com.app.pawcare.users
 
+import com.app.pawcare.config.Config
+import com.app.pawcare.api.JsonPostQuery
 import org.json.JSONObject
 
 object Login {
@@ -40,18 +42,18 @@ object Login {
     }
 
     private fun setAccess(access: Boolean){
-        this.access = access
+        Login.access = access
     }
 
     private fun setEmail(email: String) {
-        this.email = email
+        Login.email = email
     }
 
     private fun setUsername(username: String) {
-        this.username = username
+        Login.username = username
     }
 
     private fun setId(id: Int) {
-        this.id = id
+        Login.id = id
     }
 }

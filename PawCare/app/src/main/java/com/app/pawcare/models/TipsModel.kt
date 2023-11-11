@@ -1,4 +1,4 @@
-package com.app.pawcare
+package com.app.pawcare.models
 data class TipsModel (
     val idTip   : Int,
     val title   : String,
