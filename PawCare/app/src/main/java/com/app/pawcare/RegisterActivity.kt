@@ -9,6 +9,7 @@ import com.app.pawcare.config.Config
 import com.app.pawcare.databinding.ActivityRegisterBinding
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
+import com.app.pawcare.utils.Utils
 import com.app.pawcare.utils.ValidateData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -56,9 +57,9 @@ class RegisterActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) {
                     val success = validateEmail(email)
                     if (success){
-                        loadViewCaptcha(email, name, password)
-                    } else {
                         Messages.showError(Errors.ERROR_EMAIL_EXIST)
+                    } else {
+                        loadViewCaptcha(email, name, password)
                     }
                 }
             }
@@ -76,13 +77,7 @@ class RegisterActivity : AppCompatActivity() {
     }
     private fun togglePasswordVisibility() {
         val isPasswordVisible = b.showPasswordCheckBox.isChecked
-        val inputType = if (isPasswordVisible) {
-            android.text.InputType.TYPE_CLASS_TEXT or
-                    android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        } else {
-            android.text.InputType.TYPE_CLASS_TEXT or
-                    android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
+        val inputType = Utils.showPassword(isPasswordVisible)
         b.password.inputType      = inputType
         b.confirmPasswd.inputType = inputType
     }

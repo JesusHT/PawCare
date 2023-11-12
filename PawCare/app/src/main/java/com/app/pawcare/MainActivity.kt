@@ -2,13 +2,13 @@ package com.app.pawcare
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityMainBinding
 import com.app.pawcare.users.Login
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
+import com.app.pawcare.utils.Utils
 import com.app.pawcare.utils.ValidateData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.Main) {
                     val success = authenticateUser(email, password)
                     if (success) {
-                        saveSessionState(true, Login.getEmail(), Login.getUsername(), Login.getId())
+                        saveSessionState(Login.getEmail(), Login.getUsername(), Login.getId())
                         loadViewHome()
                     } else {
                         Messages.showError(Errors.ERROR_VALIDATE)
@@ -56,13 +56,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        b.forgot.setOnClickListener {
+            onForgotClick()
+        }
     }
 
-    fun onSignUpClick() {
+    private fun onSignUpClick() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    private fun onForgotClick(){
+        val intent = Intent(this, ForgotActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     private fun validFields(email: String, password: String) : Boolean{
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Messages.showError(Errors.ERROR_DATA_EMPTY)
@@ -78,10 +89,10 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-    private fun saveSessionState(isLoggedIn: Boolean, email: String, username: String, id: Int) {
+    private fun saveSessionState(email: String, username: String, id: Int) {
         val sessionVars = getSharedPreferences("SessionVars", MODE_PRIVATE)
         val editor = sessionVars.edit()
-        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.putBoolean("isLoggedIn", true)
         editor.putString("email", email)
         editor.putString("username", username)
         editor.putInt("id",id)
@@ -93,13 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun togglePasswordVisibility() {
         val isPasswordVisible = b.showPasswordCheckBox.isChecked
-        val inputType = if (isPasswordVisible) {
-            InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        } else {
-            InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
+        val inputType = Utils.showPassword(isPasswordVisible)
 
         b.password.inputType = inputType
     }

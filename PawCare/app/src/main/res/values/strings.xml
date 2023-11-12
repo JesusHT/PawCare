@@ -1,10 +1,104 @@
 <resources>
-    <string name="app_name">PawCare</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="arrow_back">arrow_back</string>
-    <string name="register_title">Registro</string>
-    <string name="register_subtitle">¡Crea una cuenta nueva!</string>
+    <!--
+        If you want to put a new string, you must put "context_activity_type" except in general just put "type_context".
+        TYPES
+            title
+            subtitle
+            description
+            field
+            txt
+            txt_button
+            button
+            others
+    -->
 
+    <!-- NAME APP -->
+    <string name="app_name">PawCare</string>
+
+    <!-- GENERAL STRINGS -->
+    <string name="description_arrow_back">Back arrow icon</string>
+    <string name="field_email">Correo electronico</string>
+    <string name="field_email_example_hint">ejemplo@ejemplo.com</string>
+    <string name="field_password">Contraseña</string>
+    <string name="field_confirm_password">Confirmar contraseña</string>
+    <string name="check_password">Mostrar contraseña</string>
+    <string name="save">Guardar</string>
+
+    <!-- LOGIN ACTIVITY -->
     <string name="login_title">¡Bienvenido!</string>
     <string name="login_subtitle">Inicia sesión con tú cuenta</string>
+    <string name="login_description_dog_image">Dog image</string>
+    <string name="login_txt_forgot_password">¿Has olvidado la contraseña?</string>
+    <string name="login_txt_account">¿No tienes cuenta?</string>
+    <string name="login_txt_button_sign_up">Regístrate aquí</string>
+    <string name="login_button_login">Iniciar Sesión</string>
+
+    <!-- REGISTER ACTIVITY -->
+    <string name="register_title">Registro</string>
+    <string name="register_subtitle">¡Crea una cuenta nueva!</string>
+    <string name="register_description_deco_cat">Deco cat image</string>
+    <string name="register_field_username">Nombre</string>
+    <string name="register_txt_accept_terms">Acepto los</string>
+    <string name="register_txt_button_terms">Términos y Condiciones</string>
+    <string name="register_button_sign_up">Registrar</string>
+
+    <!-- ADD PET ACTIVITY -->
+    <string name="add_pet_title">Añadir nueva mascota</string>
+    <string name="add_pet_description_icon_file_upload">File upload icon</string>
+    <string name="add_pet_description_cat_radio">Cat radio</string>
+    <string name="add_pet_description_dog_radio">Dog radio</string>
+    <string name="add_pet_field_image_upload">Sube una imagen de tú mascota</string>
+    <string name="add_pet_field_birthday">Cumpleaños</string>
+    <string name="add_pet_field_weight">Peso</string>
+    <string name="add_pet_field_kind_of">Raza</string>
+    <string name="add_pet_field_name">Nombre de la mascota</string>
+    <string name="add_pet_field_kind_of_pet">Selecciona el tipo de mascota</string>
+    <string name="add_pet_sex_spinner">Item text</string>
+
+    <!-- CAPTCHA ACTIVITY -->
+    <string name="captcha_description_email_icon">Email icon</string>
+    <string name="captcha_field_numbers">0</string>
+    <string name="captcha_txt_send_email">Se envío un codigo de verificación a: </string>
+    <string name="captcha_txt_resent_code">¿No recibí el código? </string>
+    <string name="captcha_txt_button_resent_code">Renviar</string>
+    <string name="captcha_button_validate">Verificar</string>
+
+    <!-- NOTIFICATIONS ACTIVITY -->
+    <string name="notifications_title">Notificaciones</string>
+
+    <!-- PROFILE ACTIVITY -->
+    <string name="profile_title">Mi perfil</string>
+    <string name="profile_description_user_icon">User icon</string>
+    <string name="profile_txt_name">Nombre de usuario</string>
+    <string name="profile_txt_email">ejemplo@ejemplo.com</string>
+    <string name="profile_button_logout">Cerrar sesión</string>
+
+    <!-- REMINDERS ACTIVITY -->
+    <string name="reminders_title">Añadir nuevo recordatorio</string>
+
+    <!-- HOME ACTIVITY -->
+    <string name="home_description_settings_icon">Setting icon</string>
+    <string name="home_description_notifications_icon">Notifications icon</string>
+    <string name="home_description_add_pet_button">Add pet button</string>
+
+    <!-- WIFI TEMPLATE -->
+    <string name="wifi_description_wifi_icon">Wifi icon</string>
+    <string name="wifi_txt_info">No hay conexión a internet</string>
+
+    <!-- SUCCESS TEMPLATE -->
+    <string name="success_description_check_icon">Check icon</string>
+    <string name="success_button_back_home">Ir al inicio</string>
+
+    <!-- PET ITEM -->
+    <string name="pet_description_more_options">More options icon</string>
+    <string name="pet_description_see_more">See more button image</string>
+    <string name="pet_txt_name">Pet\'s name</string>
+
+    <!-- TIP ITEM -->
+    <string name="tip_description_type_icon">Type icon</string>
+    <string name="tip_description_kind_of">Kind of pet</string>
+    <string name="tip_description_tip_image">Tip image</string>
+    <string name="tip_txt_title">Title</string>
+    <string name="tip_txt_body">Lorem ipsum</string>
+    <string name="tip_button_see_more">Ver más</string>
 </resources>

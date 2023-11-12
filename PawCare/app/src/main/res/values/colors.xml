@@ -5,6 +5,7 @@
     <color name="primary">#1D5D9A</color>
     <color name="secondary">#75C2F6</color>
     <color name="light_blue">#C0E1F7</color>
+    <color name="sky_blue">#0091EA</color>
     <color name="yellow">#F4D160</color>
     <color name="error">#cc0605</color>
     <color name="success">#00a135</color>

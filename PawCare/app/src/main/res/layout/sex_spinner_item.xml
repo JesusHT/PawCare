@@ -9,4 +9,4 @@
     android:padding="2dp"
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center"
-    android:text="Item Text" />
+    android:text="@string/add_pet_sex_spinner"/>

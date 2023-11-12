@@ -20,7 +20,7 @@
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/baseline_arrow_back_48"
-            android:contentDescription="@string/arrow_back"/>
+            android:contentDescription="@string/description_arrow_back"/>
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,10 +46,11 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/register_description_deco_cat"
             android:src="@drawable/deco_cat"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.1"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -59,7 +60,7 @@
             android:text="@string/register_subtitle"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/secondary"
+            android:textColor="@color/sky_blue"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -110,13 +111,14 @@
                 android:id="@+id/name"
                 android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
-                android:hint="Nombre"
+                android:hint="@string/register_field_username"
+                android:autofillHints="name"
                 android:textColorHint="@color/primary"
-                android:textColor="@color/primary"
                 android:textStyle="bold"
+                android:textColor="@color/primary"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_person_24"/>
@@ -125,14 +127,15 @@
                 android:id="@+id/email"
                 android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="15dp"
-                android:hint="ejemplo@ejemplo.com"
+                android:hint="@string/field_email_example_hint"
+                android:autofillHints="emailAddress"
                 android:textColorHint="@color/primary"
-                android:textColor="@color/primary"
                 android:textStyle="bold"
+                android:textColor="@color/primary"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_email_24"/>
@@ -141,14 +144,15 @@
                 android:id="@+id/password"
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="15dp"
-                android:hint="Contraseña"
+                android:hint="@string/field_password"
                 android:textColorHint="@color/primary"
-                android:textColor="@color/primary"
+                android:autofillHints="password"
                 android:textStyle="bold"
+                android:textColor="@color/primary"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_lock_24"/>
@@ -157,14 +161,15 @@
                 android:id="@+id/confirmPasswd"
                 android:inputType="textPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="15dp"
-                android:hint="Confirmar contraseña"
+                android:hint="@string/field_confirm_password"
                 android:textColorHint="@color/primary"
-                android:textColor="@color/primary"
+                android:autofillHints="password"
                 android:textStyle="bold"
+                android:textColor="@color/primary"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_lock_24"/>
@@ -180,13 +185,14 @@
                 <CheckBox
                     android:id="@+id/showPasswordCheckBox"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:checked="false"
-                    android:text="Mostrar contraseña"
-                    android:textColor="#1D5D9A"
+                    android:text="@string/check_password"
+                    android:textColor="@color/primary"
                     android:textStyle="bold"
                     android:layoutDirection="rtl"
-                    android:layout_weight="0" />
+                    android:layout_weight="0"
+                    tools:ignore="InefficientWeight" />
             </LinearLayout>
         </LinearLayout>
 
@@ -200,18 +206,18 @@
             <CheckBox
                 android:id="@+id/terms_checkbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Acepto los "
-                android:textColor="#316DA5"
-                android:textStyle="bold" />
+                android:layout_height="48dp"
+                android:text="@string/register_txt_accept_terms"
+                android:textStyle="bold"
+                android:textColor="@color/primary"/>
 
             <TextView
                 android:id="@+id/terms_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Términos y Condiciones"
-                android:textColor="#316DA5"
-                android:textStyle="bold" />
+                android:text="@string/register_txt_button_terms"
+                android:textStyle="bold"
+                android:textColor="@color/primary"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -229,7 +235,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:text="Registrar"
+            android:text="@string/register_button_sign_up"
             android:textColor="@color/white"/>
     </LinearLayout>
 

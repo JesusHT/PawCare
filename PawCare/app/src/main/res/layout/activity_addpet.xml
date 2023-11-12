@@ -18,7 +18,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/baseline_white_arrow_back_24"/>
+            android:src="@drawable/baseline_white_arrow_back_24"
+            android:contentDescription="@string/description_arrow_back"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Añadir nueva mascota"
+                android:text="@string/add_pet_title"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -51,18 +52,20 @@
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
             android:background="@drawable/rounded_background"
-            android:padding="10dp">
+            android:padding="10dp"
+            tools:ignore="UselessParent">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baseline_file_upload_64"/>
+                android:src="@drawable/baseline_file_upload_64"
+                android:contentDescription="@string/add_pet_description_icon_file_upload"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary"
-                android:text="Sube una imagen de tú mascota"
+                android:text="@string/add_pet_field_image_upload"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="center"/>
@@ -84,13 +87,14 @@
             android:background="@drawable/rounded_yellow"
             android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecciona el tipo de mascota"
-                android:textSize="16dp"
+                android:text="@string/add_pet_field_kind_of_pet"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#C59F27"
                 android:textAlignment="center"
@@ -105,19 +109,20 @@
 
                 <RadioButton
                     android:id="@+id/dog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginEnd="30dp"
                     android:button="@null"
-                    android:drawableLeft="@drawable/icon_dog"/>
+                    android:drawableStart="@drawable/icon_dog"
+                    android:contentDescription="@string/add_pet_description_dog_radio"/>
 
                 <RadioButton
                     android:id="@+id/cat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:button="@null"
-                    android:drawableLeft="@drawable/icon_cat"
-                    android:background="@drawable/selected_radio_button_cat"/>
+                    android:drawableStart="@drawable/icon_cat"
+                    android:contentDescription="@string/add_pet_description_cat_radio"/>
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
@@ -136,15 +141,18 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            tools:ignore="UselessParent">
 
             <EditText
                 android:id="@+id/namePet"
+                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
-                android:hint="Nombre de mascota"
+                android:hint="@string/add_pet_field_name"
+                android:autofillHints="name"
                 android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -153,12 +161,14 @@
 
             <EditText
                 android:id="@+id/raza"
+                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="Raza"
+                android:hint="@string/add_pet_field_kind_of"
+                android:autofillHints="text"
                 android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -169,11 +179,12 @@
                 android:id="@+id/peso"
                 android:inputType="numberDecimal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="Peso"
+                android:hint="@string/add_pet_field_weight"
+                android:autofillHints="kilograms"
                 android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -182,24 +193,26 @@
 
             <EditText
                 android:id="@+id/birthday"
+                android:inputType="datetime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="Cumpleaños"
+                android:hint="@string/add_pet_field_birthday"
+                android:autofillHints="date"
                 android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_cake_24"
-                android:focusable="false"
+                android:focusable="true"
                 android:clickable="true"/>
 
             <Spinner
                 android:id="@+id/sexSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
@@ -222,7 +235,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:text="Guardar"
+            android:text="@string/save"
             android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

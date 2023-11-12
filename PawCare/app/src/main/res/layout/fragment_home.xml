@@ -23,7 +23,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_settings_24"/>
+                android:src="@drawable/baseline_settings_24"
+                android:contentDescription="@string/home_description_settings_icon"/>
 
             <ImageButton
                 android:id="@+id/notifications"
@@ -31,7 +32,8 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="10dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/baseline_notifications_24"/>
+                android:src="@drawable/baseline_notifications_24"
+                android:contentDescription="@string/home_description_notifications_icon"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -51,6 +53,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/yellow"
+        android:contentDescription="@android:string/ok"
         android:scaleType="fitCenter"
-        android:src="@drawable/baseline_add_24" />
+        android:src="@drawable/baseline_add_24"
+        tools:ignore="ImageContrastCheck" />
 </FrameLayout>

@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_check_circle_24" />
+            android:src="@drawable/baseline_check_circle_24"
+            android:contentDescription="@string/success_description_check_icon"/>
 
         <TextView
             android:id="@+id/title"
@@ -53,7 +55,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button"
-                android:text="Ir al inicio"
+                android:text="@string/success_button_back_home"
                 android:textColor="@color/white"/>
         </LinearLayout>
     </LinearLayout>

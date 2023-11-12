@@ -18,7 +18,7 @@
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/baseline_arrow_back_48"
-            android:contentDescription="@string/arrow_back"/>
+            android:contentDescription="@string/description_arrow_back"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,13 +59,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_mark_email_read_24"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:contentDescription="@string/captcha_description_email_icon"/>
         
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Se envío un codigo de verificación a: "
+            android:text="@string/captcha_txt_send_email"
             android:textColor="@color/primary"
             android:textSize="19sp"
             android:textStyle="bold"
@@ -75,11 +76,11 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ejemplo@ejemplo.com"
-            android:textColor="@color/secondary"
+            android:text="@string/field_email_example_hint"
+            android:textAlignment="center"
+            android:textColor="@color/sky_blue"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textAlignment="center"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,63 +92,68 @@
 
             <EditText
                 android:id="@+id/num1"
-                android:inputType="number"
-                android:maxLength="1"
-                android:layout_width="40dp"
+                android:layout_width="48dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
+                android:autofillHints="number"
                 android:background="@color/light_blue"
-                android:textColor="@color/primary"
+                android:hint="@string/captcha_field_numbers"
+                android:inputType="number"
+                android:maxLength="1"
                 android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                android:hint="0"
-                android:textColorHint="@color/primary"/>
+                tools:ignore="DuplicateSpeakableTextCheck" />
 
             <EditText
                 android:id="@+id/num2"
-                android:inputType="numberSigned"
-                android:maxLength="1"
-                android:layout_width="40dp"
+                android:layout_width="48dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/light_blue"
-                android:textColor="@color/primary"
+                android:hint="@string/captcha_field_numbers"
+                android:autofillHints="number"
+                android:inputType="number"
+                android:maxLength="1"
                 android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:hint="0"
-                android:textColorHint="@color/primary"/>
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/num3"
-                android:inputType="number"
-                android:maxLength="1"
-                android:layout_width="40dp"
+                android:layout_width="48dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/light_blue"
-                android:textColor="@color/primary"
+                android:hint="@string/captcha_field_numbers"
+                android:autofillHints="number"
+                android:inputType="number"
+                android:maxLength="1"
                 android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:hint="0"
-                android:textColorHint="@color/primary"/>
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/num4"
-                android:inputType="number"
-                android:maxLength="1"
-                android:layout_width="40dp"
+                android:layout_width="48dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
                 android:background="@color/light_blue"
-                android:textColor="@color/primary"
+                android:hint="@string/captcha_field_numbers"
+                android:autofillHints="number"
+                android:inputType="number"
+                android:maxLength="1"
                 android:textAlignment="center"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/primary"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:hint="0"
-                android:textColorHint="@color/primary"/>
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -160,22 +166,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¿No recibí el código?"
+                android:text="@string/captcha_txt_resent_code"
                 android:textSize="19sp"
                 android:textColor="@color/primary"
+                android:layout_marginEnd="5dp"
                 android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/reload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Renviar"
-                android:textColor="@color/primary"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="onSignUpClick"
+                android:text="@string/captcha_txt_button_resent_code"
+                android:textColor="@color/primary"
+                android:textSize="19sp"
                 android:textStyle="bold"
-                android:textSize="19sp"/>
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
         <LinearLayout
@@ -190,7 +197,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button"
-                android:text="Verificar"
+                android:text="@string/captcha_button_validate"
                 android:textColor="@color/white"/>
         </LinearLayout>
     </LinearLayout>

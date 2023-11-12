@@ -56,6 +56,10 @@
             android:name=".TemplateSuccess"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".ForgotActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
