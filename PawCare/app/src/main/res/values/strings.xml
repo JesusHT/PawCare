@@ -71,6 +71,10 @@
     <string name="profile_description_user_icon">User icon</string>
     <string name="profile_txt_name">Nombre de usuario</string>
     <string name="profile_txt_email">ejemplo@ejemplo.com</string>
+    <string name="profile_txt_terms">Terminos y condiciones</string>
+    <string name="profile_txt_about_us">Acerca de</string>
+    <string name="profile_txt_update_password">Cambiar contraseña</string>
+    <string name="profile_"></string>
     <string name="profile_button_logout">Cerrar sesión</string>
 
     <!-- REMINDERS ACTIVITY -->
@@ -87,6 +91,12 @@
         PawCare requiere verificar tu identidad para proteger la cuenta. Ingresa tu correo:
     </string>
     <string name="forgot_button_next">Continuar</string>
+
+    <!-- UPDATE PASSWORD ACTIVITY -->
+    <string name="update_password_title">Cambiar contraseña</string>
+    <string name="update_password_txt_last_password">Actual contraseña</string>
+    <string name="update_password_txt_new_password">Nueva contraseña</string>
+    <string name="update_password_button_change_password">Cambiar contraseña</string>
 
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>

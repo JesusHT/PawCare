@@ -17,6 +17,8 @@ class Errors {
         const val ERROR_TERMS_NOT_ACCEPTED = "Debes aceptar los términos y condiciones para continuar."
         const val ERROR_CAPTCHA            = "Código incorrecto. Intenta de nuevo."
         const val ERROR_CREATE_ACCOUNT     = "Error al crear la cuenta. Intenta de nuevo."
+        const val ERROR_PASSWORD_VALIDATE  = "La contraseña no coincide."
+        const val ERROR_PASSWORD_SAME      = "La nueva contraseña no debe ser igual que la anterior."
 
         const val ERROR_UPDATE_PASSWORD    = "Hubo un problema al actualizar la contraseña. Intente de nuevo"
     }

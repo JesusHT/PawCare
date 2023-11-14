@@ -60,6 +60,10 @@
             android:name=".ForgotActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".UpdatePasswordActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
