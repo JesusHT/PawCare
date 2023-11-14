@@ -81,10 +81,6 @@ class CaptchaActivity : AppCompatActivity() {
         return Register.getStatus()
     }
 
-    private suspend fun createNewPassword(email: String) : String {
-
-    }
-
     private fun validateCaptcha() : Boolean {
         val num1 = b.num1.text.toString()
         val num2 = b.num2.text.toString()
