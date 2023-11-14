@@ -62,7 +62,8 @@
         <EditText
             android:id="@+id/email"
             android:inputType="textEmailAddress"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:minWidth="350dp"
             android:layout_height="48dp"
             android:background="@drawable/edittext_style"
             android:padding="10dp"

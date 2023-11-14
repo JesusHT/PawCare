@@ -84,7 +84,7 @@
     <!-- FORGOT ACTIVITY -->
     <string name="forgot_title">Recuperación de la cuenta</string>
     <string name="forgot_txt_alert">
-        Para proteger tu cuenta, PawCare quiere verificar que eres tú quien está intentando iniciar sesión, por favor ingresa tu correo electronico
+        PawCare requiere verificar tu identidad para proteger la cuenta. Ingresa tu correo:
     </string>
     <string name="forgot_button_next">Continuar</string>
 

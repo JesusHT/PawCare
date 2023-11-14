@@ -3,16 +3,16 @@ package com.app.pawcare
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.app.pawcare.api.JsonPostQuery
 import com.app.pawcare.config.Config
 import com.app.pawcare.databinding.ActivityCaptchaBinding
 import com.app.pawcare.users.Register
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class CaptchaActivity : AppCompatActivity() {
     lateinit var b : ActivityCaptchaBinding
@@ -23,7 +23,6 @@ class CaptchaActivity : AppCompatActivity() {
     private var username: String = ""
     private var password: String = ""
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivityCaptchaBinding.inflate(layoutInflater)
@@ -46,16 +45,23 @@ class CaptchaActivity : AppCompatActivity() {
                     username = intent.getStringExtra("name").toString()
                     password = intent.getStringExtra("password").toString()
 
-                    GlobalScope.launch(Dispatchers.Main) {
+                    lifecycleScope.launch(Dispatchers.Main) {
                         val success = createAccount(email, username, password)
                         if (success) {
-                            loadSuccessView("Register")
+                            loadSuccessTemplateIntent("Register")
                         } else {
                             Messages.showError(Errors.ERROR_CREATE_ACCOUNT)
                         }
                     }
                 } else {
-                    loadSuccessView("Forgot")
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        val success = updatePassword(email)
+                        if (success) {
+                            loadSuccessTemplateIntent("Forgot")
+                        } else {
+                            Messages.showError(Errors.ERROR_UPDATE_PASSWORD)
+                        }
+                    }
                 }
             } else {
                 Messages.showError(Errors.ERROR_CAPTCHA)
@@ -64,21 +70,27 @@ class CaptchaActivity : AppCompatActivity() {
 
         b.back.setOnClickListener {
             if (typeAction.equals("Register")){
-                val intent = Intent(this, RegisterActivity::class.java)
-                startActivity(intent)
-                finish()
+                loadRegisterActivityIntent()
             } else {
-                val intent = Intent(this, ForgotActivity::class.java)
-                startActivity(intent)
-                finish()
+                loadForgotActivityIntent()
             }
         }
     }
 
-    private suspend fun createAccount(email: String, username: String, password: String) : Boolean{
+    private suspend fun createAccount(email: String, username: String, password: String) : Boolean {
         Register.createNewAccount(email,username,password)
 
         return Register.getStatus()
+    }
+
+    private suspend fun updatePassword(email: String): Boolean {
+        val postData   = "email=$email"
+        val result     = JsonPostQuery(Config.URL_CREATE_PASSWORD, postData).execute()
+        val jsonObject = JSONObject(result)
+
+        println(jsonObject.optString("password"))
+
+        return jsonObject.optBoolean("status")
     }
 
     private fun validateCaptcha() : Boolean {
@@ -107,9 +119,8 @@ class CaptchaActivity : AppCompatActivity() {
         println(code)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun createNewCode(){
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             createCode(email)
         }
     }
@@ -127,7 +138,24 @@ class CaptchaActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadSuccessView(string: String){
+    /*
+        METHODS TO LOAD INTENT
+    */
+    private fun loadActivityIntent(destinationActivity: Class<*>) {
+        val intent = Intent(this, destinationActivity)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun loadRegisterActivityIntent() {
+        loadActivityIntent(RegisterActivity::class.java)
+    }
+
+    private fun loadForgotActivityIntent() {
+        loadActivityIntent(ForgotActivity::class.java)
+    }
+
+    private fun loadSuccessTemplateIntent(string: String){
         val intent = Intent(this, TemplateSuccess::class.java)
         intent.putExtra("typeAction", string)
         startActivity(intent)
