@@ -50,14 +50,13 @@ class HomeFragment : Fragment() {
 
         val listView = b.recyclerView
         val petsModelLists = arrayListOf(
-            PetsModel(1, "Chito", "Cat", "photo_cat.png", 5, "Male", "2020-03-15"),
-            PetsModel(2, "Gato", "Cat", "photo_cat.png", 5, "Male", "2020-04-15"),
-            PetsModel(3, "Max", "Dog", "photo_dog.png", 10, "Male", "2018-07-10"),
-            PetsModel(4, "Garfield", "Dog", "photo_dog.png", 8, "Male", "2019-02-25")
+            PetsModel(1, "Chito",   "Cat", "photo_cat.png", 5, "Male", "2020-03-15"),
+            PetsModel(2, "Gato",    "Cat", "photo_cat.png", 5, "Male", "2020-04-15"),
+            PetsModel(3, "Max",     "Dog", "photo_dog.png", 10,"Male", "2018-07-10"),
+            PetsModel(4, "Garfield","Dog", "photo_dog.png", 8, "Male", "2019-02-25")
         )
         initView(petsModelLists)
         listView.setOnCreateContextMenuListener(this)
-
     }
 
     private fun initView(pets: List<PetsModel>) {

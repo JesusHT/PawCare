@@ -81,6 +81,13 @@
     <string name="home_description_notifications_icon">Notifications icon</string>
     <string name="home_description_add_pet_button">Add pet button</string>
 
+    <!-- FORGOT ACTIVITY -->
+    <string name="forgot_title">Recuperación de la cuenta</string>
+    <string name="forgot_txt_alert">
+        Para proteger tu cuenta, PawCare quiere verificar que eres tú quien está intentando iniciar sesión, por favor ingresa tu correo electronico
+    </string>
+    <string name="forgot_button_next">Continuar</string>
+
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>
     <string name="wifi_txt_info">No hay conexión a internet</string>

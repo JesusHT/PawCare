@@ -49,14 +49,13 @@ class CaptchaActivity : AppCompatActivity() {
                     GlobalScope.launch(Dispatchers.Main) {
                         val success = createAccount(email, username, password)
                         if (success) {
-                            loadSuccessView()
-                            Messages.showSuccess("Cuenta creada con exito")
+                            loadSuccessView("Register")
                         } else {
                             Messages.showError(Errors.ERROR_CREATE_ACCOUNT)
                         }
                     }
                 } else {
-                    Messages.showSuccess("Olvido la cotraseña")
+                    loadSuccessView("Forgot")
                 }
             } else {
                 Messages.showError(Errors.ERROR_CAPTCHA)
@@ -69,7 +68,7 @@ class CaptchaActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                val intent = Intent(this, RemindersActivity::class.java)
+                val intent = Intent(this, ForgotActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -80,6 +79,10 @@ class CaptchaActivity : AppCompatActivity() {
         Register.createNewAccount(email,username,password)
 
         return Register.getStatus()
+    }
+
+    private suspend fun createNewPassword(email: String) : String {
+
     }
 
     private fun validateCaptcha() : Boolean {
@@ -99,6 +102,22 @@ class CaptchaActivity : AppCompatActivity() {
             false
         }
     }
+
+    private suspend fun createCode(email: String){
+        val postData   = "email=$email"
+        val result     = JsonPostQuery(Config.URL_CAPTCHA, postData).execute()
+
+        code = result
+        println(code)
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun createNewCode(){
+        GlobalScope.launch(Dispatchers.Main) {
+            createCode(email)
+        }
+    }
+
     private fun handleResendButton() {
         b.reload.setOnClickListener {
             if (reSendCounter < 3) {
@@ -111,23 +130,10 @@ class CaptchaActivity : AppCompatActivity() {
             }
         }
     }
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun createNewCode(){
-        GlobalScope.launch(Dispatchers.Main) {
-            createCode(email)
-        }
-    }
-    private suspend fun createCode(email: String){
-        val postData   = "email=$email"
-        val result     = JsonPostQuery(Config.URL_CAPTCHA, postData).execute()
 
-        code = result
-        println(code)
-    }
-
-    private fun loadSuccessView(){
+    private fun loadSuccessView(string: String){
         val intent = Intent(this, TemplateSuccess::class.java)
-        intent.putExtra("typeAction", "Register")
+        intent.putExtra("typeAction", string)
         startActivity(intent)
         finish()
     }
