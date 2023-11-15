@@ -62,6 +62,7 @@
                 android:contentDescription="@string/add_pet_description_icon_file_upload"/>
 
             <TextView
+                android:id="@+id/urlImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary"
