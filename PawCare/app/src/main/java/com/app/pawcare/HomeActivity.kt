@@ -27,6 +27,11 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
+        val goToFragment = intent.getStringExtra("goToFragment")
+        if (goToFragment != null && goToFragment == "HomeFragment") {
+            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
+        }
+
     }
 
     private fun remplaceFragment(fragment: Fragment){

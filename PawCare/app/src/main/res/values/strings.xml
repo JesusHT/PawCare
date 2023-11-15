@@ -112,6 +112,10 @@
     <string name="pet_description_more_options">More options icon</string>
     <string name="pet_description_see_more">See more button image</string>
     <string name="pet_txt_name">Pet\'s name</string>
+    <string name="pet_txt_raza"><b>Raza:</b> Chihuhua</string>
+    <string name="pet_txt_age"><b>Edad:</b>  1 año</string>
+    <string name="pet_txt_peso"><b>Peso:</b> 18 kg</string>
+    <string name="pet_txt_sex"><b>Sexo:</b>  Hembra</string>
 
     <!-- TIP ITEM -->
     <string name="tip_description_type_icon">Type icon</string>

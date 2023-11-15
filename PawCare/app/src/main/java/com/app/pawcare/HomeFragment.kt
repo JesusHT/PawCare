@@ -1,26 +1,27 @@
 package com.app.pawcare
 
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.view.ContextMenu
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.adapters.ViewPetsAdapter
-import com.app.pawcare.api.JsonQuery
-import com.app.pawcare.config.Config
+import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.FragmentHomeBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
     private lateinit var b: FragmentHomeBinding
+    private lateinit var petsQueries: PetsQueries
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +42,7 @@ class HomeFragment : Fragment() {
         b.addPet.setOnClickListener {
             val intent = Intent(requireActivity(), AddPetActivity::class.java)
             requireActivity().startActivity(intent)
+            requireActivity().finish()
         }
 
         b.notifications.setOnClickListener {
@@ -48,36 +50,53 @@ class HomeFragment : Fragment() {
             requireActivity().startActivity(intent)
         }
 
-        val listView = b.recyclerView
-        val petsModelLists = arrayListOf(
-            PetsModel(1, "Chito",   "Cat", "photo_cat.png", 5, "Male", "2020-03-15"),
-            PetsModel(2, "Gato",    "Cat", "photo_cat.png", 5, "Male", "2020-04-15"),
-            PetsModel(3, "Max",     "Dog", "photo_dog.png", 10,"Male", "2018-07-10"),
-            PetsModel(4, "Garfield","Dog", "photo_dog.png", 8, "Male", "2019-02-25")
-        )
-        initView(petsModelLists)
-        listView.setOnCreateContextMenuListener(this)
+        petsQueries = PetsQueries(requireContext())
+        initView()
+        b.recyclerView.setOnCreateContextMenuListener(this)
     }
 
-    private fun initView(pets: List<PetsModel>) {
+    private fun initView() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            val pets = getPetsFromDatabase()
+            updateRecyclerView(pets)
+        }
+    }
+
+    private suspend fun getPetsFromDatabase(): List<PetsModel> {
+        return withContext(Dispatchers.IO) {
+            val petsCursor = petsQueries.getAllPets()
+            return@withContext parsePetsCursorToList(petsCursor)
+        }
+    }
+
+    private fun parsePetsCursorToList(cursor: Cursor): List<PetsModel> {
+        val petsList = mutableListOf<PetsModel>()
+
+        while (cursor.moveToNext()) {
+            val idPet    = cursor.getInt(cursor.getColumnIndexOrThrow("idPet"))
+            val name     = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+            val raza     = cursor.getString(cursor.getColumnIndexOrThrow("raza"))
+            val photo    = cursor.getString(cursor.getColumnIndexOrThrow("photo"))
+            val peso     = cursor.getInt(cursor.getColumnIndexOrThrow("peso"))
+            val sex      = cursor.getString(cursor.getColumnIndexOrThrow("sex"))
+            val birthday = cursor.getString(cursor.getColumnIndexOrThrow("birthday"))
+            val typePet  = cursor.getString(cursor.getColumnIndexOrThrow("typePet"))
+
+            val pet = PetsModel(1, idPet, name, raza, photo, peso, sex, birthday, typePet)
+            petsList.add(pet)
+        }
+
+        cursor.close()
+        return petsList
+    }
+
+    private fun updateRecyclerView(pets: List<PetsModel>) {
         val recyclerView: RecyclerView = requireView().findViewById(R.id.recyclerView)
         if (recyclerView.adapter == null) {
             val adapter = ViewPetsAdapter(pets)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
-    }
-
-    private suspend fun getTips(): List<PetsModel> {
-        return withContext(Dispatchers.IO) {
-            val result = JsonQuery(Config.URL_TIPS).execute()
-            return@withContext parseJsonToTipsList(result)
-        }
-    }
-
-    private fun parseJsonToTipsList(json: String): List<PetsModel> {
-        val gson = Gson()
-        return gson.fromJson(json, object : TypeToken<List<PetsModel>>() {}.type)
     }
 
     override fun onCreateContextMenu(

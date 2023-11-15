@@ -21,5 +21,11 @@ class Errors {
         const val ERROR_PASSWORD_SAME      = "La nueva contraseña no debe ser igual que la anterior."
 
         const val ERROR_UPDATE_PASSWORD    = "Hubo un problema al actualizar la contraseña. Intente de nuevo"
+        const val ERROR_INVALID_WEIGHT     = "Valor no valido, el peso debe ser mayor a 0."
+        const val ERROR_SELECT_SEX         = "Debe elegir el sexo de la mascota"
+
+
+        //DB ERRORS
+        const val ERROR_DB_PETS = "Ah ocurrido un error. Intentalo de nuevo."
     }
 }
