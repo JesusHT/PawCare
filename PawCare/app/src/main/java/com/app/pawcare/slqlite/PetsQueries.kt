@@ -24,7 +24,7 @@ class PetsQueries(context: Context) {
         return db.insert(PetsTableModel.PetEntry.TABLE_NAME, null, values)
     }
 
-    // Método para obtener todas las mascotas
+    // SELECT PETS
     fun getAllPets(): Cursor {
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
@@ -44,7 +44,7 @@ class PetsQueries(context: Context) {
         )
     }
 
-    // Método para obtener una mascota por su ID
+    // SELECT PET BY ID
     fun getPetById(id: Long): Cursor {
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
@@ -71,7 +71,7 @@ class PetsQueries(context: Context) {
         )
     }
 
-    // Método para actualizar una mascota
+    // UPDATE PET BY ID
     fun updatePet(id: Long, name: String, raza: String, photo: String, peso: Int, sex: String, birthday: String, typePet: String): Int {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
@@ -95,7 +95,7 @@ class PetsQueries(context: Context) {
         )
     }
 
-    // Método para eliminar una mascota por su ID
+    // DELETE PET BY ID
     fun deletePet(id: Long): Int {
         val db = dbHelper.writableDatabase
         val selection = "${PetsTableModel.PetEntry.COLUMN_ID} = ?"

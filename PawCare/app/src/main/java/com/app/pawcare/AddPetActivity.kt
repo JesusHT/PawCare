@@ -146,8 +146,6 @@ class AddPetActivity : AppCompatActivity() {
                 selectedPetType!!
             )
 
-            println(selectedImageUri)
-
             if (newRowId > 0) {
                 Messages.showSuccess(Successes.SUCCESS_DB_PETS)
                 loadHomeFragment()
