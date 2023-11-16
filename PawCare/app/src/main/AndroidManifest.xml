@@ -72,6 +72,10 @@
             android:name=".UpdatePasswordActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".UpdatePetActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

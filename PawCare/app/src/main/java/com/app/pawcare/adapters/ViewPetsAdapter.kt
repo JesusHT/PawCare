@@ -2,6 +2,7 @@ package com.app.pawcare.adapters
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.R
+import com.app.pawcare.UpdatePetActivity
 import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.PetItemBinding
 import com.app.pawcare.slqlite.PetsQueries
@@ -95,7 +97,7 @@ class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<
                             true
                         }
                         R.id.edit -> {
-                            Toast.makeText(context, "EDIT ITEM ID: $id", Toast.LENGTH_SHORT).show()
+                            loadUpdatePetActivity(id)
                             true
                         }
                         R.id.see -> {
@@ -124,6 +126,12 @@ class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<
 
         private fun initView(id: Int) {
             println(id)
+        }
+
+        private fun loadUpdatePetActivity(id: Int){
+            val intent = Intent(context, UpdatePetActivity::class.java)
+            intent.putExtra("id", id)
+            context.startActivity(intent)
         }
     }
 

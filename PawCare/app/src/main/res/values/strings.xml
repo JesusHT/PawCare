@@ -100,6 +100,9 @@
     <string name="update_password_txt_new_password">Nueva contraseña</string>
     <string name="update_password_button_change_password">Cambiar contraseña</string>
 
+    <!-- UPDATE PET ACTIVITY -->
+    <string name="update_pet_title">Actualizar información de mascota</string>
+
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>
     <string name="wifi_txt_info">No hay conexión a internet</string>
