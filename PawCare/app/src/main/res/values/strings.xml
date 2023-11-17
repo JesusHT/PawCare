@@ -1,6 +1,10 @@
 <resources>
     <string name="google_map_key_api">AIzaSyCCLDYbhnUcDfdz-L7SoCpyvqwkrKpQhsc</string>
 
+    <!-- TYPE PET -->
+    <string name="type_pet_cat">Gato</string>
+    <string name="type_pet_dog">Perro</string>
+
     <!--
         If you want to put a new string, you must put "context_activity_type" except in general just put "type_context".
         TYPES

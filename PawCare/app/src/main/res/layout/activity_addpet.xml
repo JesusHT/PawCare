@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddPetActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/header"
@@ -54,16 +53,6 @@
             android:text=""
             android:textSize="19sp"
             android:textColor="@color/error"
-            android:textStyle="bold"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:id="@+id/success_message"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textSize="19sp"
-            android:textColor="@color/success"
             android:textStyle="bold"
             android:textAlignment="center"/>
 
@@ -147,6 +136,16 @@
                     android:drawableStart="@drawable/icon_cat"
                     android:contentDescription="@string/add_pet_description_cat_radio"/>
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/typePetSelected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#C59F27"
+                android:textAlignment="center"
+                android:layout_marginBottom="5dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -216,7 +215,6 @@
 
             <EditText
                 android:id="@+id/birthday"
-                android:inputType="datetime"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/edittext_style"
@@ -229,8 +227,10 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:drawableStart="@drawable/baseline_cake_24"
-                android:focusable="true"
-                android:clickable="true"/>
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:clickable="true"
+                android:inputType="none"/>
 
             <Spinner
                 android:id="@+id/sexSpinner"

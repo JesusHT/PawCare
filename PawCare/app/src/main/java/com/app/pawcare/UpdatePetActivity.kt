@@ -1,64 +1,67 @@
 package com.app.pawcare
 
-import android.app.DatePickerDialog
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.OpenableColumns
 import android.widget.ArrayAdapter
-import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.app.pawcare.databinding.ActivityUpdatePetBinding
+import com.app.pawcare.databinding.ActivityAddpetBinding
 import com.app.pawcare.models.PetsTableModel
 import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
-import java.util.Calendar
+import com.app.pawcare.utils.Successes
+import com.app.pawcare.utils.Utils
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 class UpdatePetActivity : AppCompatActivity() {
-    private lateinit var b : ActivityUpdatePetBinding
+    private lateinit var b: ActivityAddpetBinding
     private lateinit var petsQueries: PetsQueries
     private var selectedImageUri: String? = null
     private var selectedPetType: String? = null
+    private var idPet: Int = 0
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                handleGalleryResult(data)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        b = ActivityUpdatePetBinding.inflate(layoutInflater)
+        b = ActivityAddpetBinding.inflate(layoutInflater)
         setContentView(b.root)
-
-        b.back.setOnClickListener {
-            loadHomeFragment()
-        }
 
         Messages.setErrorView(b.errorMessage)
 
+        b.back.setOnClickListener     { loadHomeFragment() }
+        b.addImage.setOnClickListener { openGallery() }
+        b.save.setOnClickListener     { updatePet() }
+
         petsQueries = PetsQueries(this)
 
-        val sexSpinner = b.sexSpinner
         val sexOptions = resources.getStringArray(R.array.sex_options)
 
         val adapter = ArrayAdapter(this, R.layout.sex_spinner_item, sexOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        sexSpinner.adapter = adapter
+        b.sexSpinner.adapter = adapter
+        b.birthday.setOnClickListener { Utils.generateCalendar(b.birthday, this) }
 
-        val birthdayEditText = findViewById<EditText>(R.id.birthday)
-
-        birthdayEditText.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val year  = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day   = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                birthdayEditText.setText(selectedDate)
-            }, year, month, day)
-
-            datePickerDialog.show()
-        }
 
         b.dog.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 selectedPetType = "Dog"
-                b.typePetSelected.text = "Perro"
+                b.typePetSelected.text = resources.getString(R.string.type_pet_dog)
 
             }
         }
@@ -66,12 +69,18 @@ class UpdatePetActivity : AppCompatActivity() {
         b.cat.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 selectedPetType = "Cat"
-                b.typePetSelected.text = "Gato"
+                b.typePetSelected.text = resources.getString(R.string.type_pet_cat)
             }
         }
 
         val petId = intent.getIntExtra("id", -1)
-        loadFields(petId.toLong())
+
+        if (petId != -1) {
+            idPet = petId
+            loadFields(petId.toLong())
+        } else {
+            loadHomeFragment()
+        }
     }
 
     private fun loadFields(id: Long) {
@@ -92,8 +101,8 @@ class UpdatePetActivity : AppCompatActivity() {
             selectedPetType = typePet
 
             val txtTypePet = when (typePet) {
-                "Cat" -> "Gato"
-                "Dog" -> "Perro"
+                "Cat" -> resources.getString(R.string.type_pet_cat)
+                "Dog" -> resources.getString(R.string.type_pet_dog)
                 else -> throw IllegalArgumentException("No found")
             }
 
@@ -109,12 +118,31 @@ class UpdatePetActivity : AppCompatActivity() {
         cursor.close()
     }
 
+    private fun updatePet() {
+        if (validateFields() && selectedPetType != null) {
+            val name     = b.namePet.text.toString().trim()
+            val raza     = b.raza.text.toString().trim()
+            val peso     = b.peso.text.toString().trim().toIntOrNull() ?: 0
+            val birthday = b.birthday.text.toString().trim()
+            val sex      = b.sexSpinner.selectedItem.toString()
+
+            val cursor = petsQueries.updatePet(idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
+
+            if (cursor > 0) {
+                Messages.showSuccess(Successes.SUCCESS_DB_PETS)
+                loadHomeFragment()
+            } else {
+                Messages.showError(Errors.ERROR_DB_PETS)
+            }
+        }
+    }
+
     private fun validateFields(): Boolean {
-        val name     = b.namePet.text.toString().trim()
-        val raza     = b.raza.text.toString().trim()
-        val pesoStr  = b.peso.text.toString().trim().toIntOrNull() ?: 0
+        val name = b.namePet.text.toString().trim()
+        val raza = b.raza.text.toString().trim()
+        val pesoStr = b.peso.text.toString().trim().toIntOrNull() ?: 0
         val birthday = b.birthday.text.toString().trim()
-        val sex      = b.sexSpinner.selectedItem.toString()
+        val sex = b.sexSpinner.selectedItem.toString()
 
         if (name.isEmpty() || birthday.isEmpty() || raza.isEmpty()) {
             Messages.showError(Errors.ERROR_DATA_EMPTY)
@@ -134,11 +162,55 @@ class UpdatePetActivity : AppCompatActivity() {
         return true
     }
 
+    // LOAD VIEW
+
     private fun loadHomeFragment(){
         val intent = Intent(this, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         intent.putExtra("goToFragment", "HomeFragment")
         startActivity(intent)
         finish()
+    }
+
+    // SAVE PHOTO
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        galleryLauncher.launch(intent)
+    }
+
+    @SuppressLint("Range")
+    private fun handleGalleryResult(data: Intent?) {
+        if (data != null) {
+            val selectedFileUri = data.data
+
+            val cursor = contentResolver.query(selectedFileUri!!, null, null, null, null)
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    b.urlImage.text  = displayName
+                    selectedImageUri = displayName
+
+                    saveFileToLocal(selectedFileUri, displayName)
+                }
+            }
+        }
+    }
+
+    private fun saveFileToLocal(uri: Uri, displayName: String) {
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val outputFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), displayName)
+
+        try {
+            val outputStream: OutputStream = FileOutputStream(outputFile)
+            inputStream?.copyTo(outputStream, bufferSize = 4 * 1024)
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            inputStream?.close()
+        }
     }
 }
