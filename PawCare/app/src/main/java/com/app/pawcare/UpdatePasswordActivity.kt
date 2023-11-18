@@ -31,6 +31,7 @@ class UpdatePasswordActivity : AppCompatActivity() {
             onBackPressed()
             finish()
         }
+
         b.showPasswordCheckBox.setOnCheckedChangeListener { _, _ -> togglePasswordVisibility() }
         b.save.setOnClickListener{
             val lastPassword     = b.lastPassword.text.toString()
@@ -43,10 +44,10 @@ class UpdatePasswordActivity : AppCompatActivity() {
                     if (success){
                         if(updatePassword(newPassword, getId())){
                             Messages.showSuccess(Successes.SUCCESS_UPDATE)
-                            clearInptus()
+                            clearInputs()
                         } else {
                             Messages.showError(Errors.ERROR_UPDATE_PASSWORD)
-                            clearInptus()
+                            clearInputs()
                         }
                     } else {
                         Messages.showError(Errors.ERROR_PASSWORD_VALIDATE)
@@ -97,7 +98,7 @@ class UpdatePasswordActivity : AppCompatActivity() {
         return sessionVars.getInt("id", 0)
     }
 
-    private fun clearInptus(){
+    private fun clearInputs(){
         b.lastPassword.text.clear()
         b.newPassword.text.clear()
         b.confirmPasswd.text.clear()

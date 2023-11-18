@@ -129,8 +129,6 @@ class UpdatePetActivity : AppCompatActivity() {
             val cursor = petsQueries.updatePet(idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (cursor > 0) {
-                val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout) as HomeFragment?
-                fragment?.onItemChangedToActivities()
                 finish()
             } else {
                 Messages.showError(Errors.ERROR_DB_PETS)

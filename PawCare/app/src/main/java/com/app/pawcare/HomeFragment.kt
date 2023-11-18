@@ -89,16 +89,10 @@ class HomeFragment : Fragment(), OnItemChangedListener {
     }
 
     override fun onItemChanged() {
-        println("Aaaaa")
         val recyclerView: RecyclerView = requireView().findViewById(R.id.recyclerView)
         recyclerView.adapter = null
         initView()
     }
-
-    fun onItemChangedToActivities(){
-        println("Aaaaa")
-    }
-
     /*
         METHODS TO LOAD INTENT
     */
