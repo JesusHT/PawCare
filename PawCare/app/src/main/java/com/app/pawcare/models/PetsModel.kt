@@ -1,7 +1,7 @@
 package com.app.pawcare.models
 
 data class PetsModel(
-    val idUser: Int,
+    val ownerId: Int,
     val idPet : Int,
     val name  : String,
     val raza  : String,

@@ -7,6 +7,7 @@ class PetsTableModel {
     object PetEntry : BaseColumns {
         const val TABLE_NAME      = "pets"
         const val COLUMN_ID       = "idPet"
+        const val COLUMN_OWNER_ID = "ownerId"
         const val COLUMN_NAME     = "name"
         const val COLUMN_RAZA     = "raza"
         const val COLUMN_PHOTO    = "photo"
@@ -20,6 +21,7 @@ class PetsTableModel {
         const val SQL_CREATE_PETS_TABLE = """
             CREATE TABLE ${PetEntry.TABLE_NAME} (
                 ${PetEntry.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT,
+                ${PetEntry.COLUMN_OWNER_ID} INTEGER NOT NULL,
                 ${PetEntry.COLUMN_NAME} TEXT NOT NULL,
                 ${PetEntry.COLUMN_RAZA} TEXT NOT NULL,
                 ${PetEntry.COLUMN_PHOTO} TEXT NOT NULL,

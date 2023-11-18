@@ -9,9 +9,10 @@ class PetsQueries(context: Context) {
 
     private val dbHelper = PawCareDatabaseHelper(context)
 
-    fun insertPet(name: String, raza: String, photo: String, peso: Int, sex: String, birthday: String, typePet: String): Long {
+    fun insertPet(ownerId: Int, name: String, raza: String, photo: String, peso: Int, sex: String, birthday: String, typePet: String): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
+            put(PetsTableModel.PetEntry.COLUMN_OWNER_ID, ownerId)
             put(PetsTableModel.PetEntry.COLUMN_NAME, name)
             put(PetsTableModel.PetEntry.COLUMN_RAZA, raza)
             put(PetsTableModel.PetEntry.COLUMN_PHOTO, photo)
@@ -29,6 +30,7 @@ class PetsQueries(context: Context) {
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
             PetsTableModel.PetEntry.COLUMN_ID,
+            PetsTableModel.PetEntry.COLUMN_OWNER_ID,
             PetsTableModel.PetEntry.COLUMN_NAME,
             PetsTableModel.PetEntry.COLUMN_RAZA,
             PetsTableModel.PetEntry.COLUMN_PHOTO,
@@ -49,6 +51,7 @@ class PetsQueries(context: Context) {
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
             PetsTableModel.PetEntry.COLUMN_ID,
+            PetsTableModel.PetEntry.COLUMN_OWNER_ID,
             PetsTableModel.PetEntry.COLUMN_NAME,
             PetsTableModel.PetEntry.COLUMN_RAZA,
             PetsTableModel.PetEntry.COLUMN_PHOTO,
@@ -72,9 +75,10 @@ class PetsQueries(context: Context) {
     }
 
     // UPDATE PET BY ID
-    fun updatePet(id: Long, name: String, raza: String, photo: String, peso: Int, sex: String, birthday: String, typePet: String): Int {
+    fun updatePet(ownerId :Int, id: Long, name: String, raza: String, photo: String, peso: Int, sex: String, birthday: String, typePet: String): Int {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
+            put(PetsTableModel.PetEntry.COLUMN_OWNER_ID, ownerId)
             put(PetsTableModel.PetEntry.COLUMN_NAME, name)
             put(PetsTableModel.PetEntry.COLUMN_RAZA, raza)
             put(PetsTableModel.PetEntry.COLUMN_PHOTO, photo)

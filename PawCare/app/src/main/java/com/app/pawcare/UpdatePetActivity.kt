@@ -2,6 +2,7 @@ package com.app.pawcare
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -130,7 +131,7 @@ class UpdatePetActivity : AppCompatActivity() {
             val birthday = b.birthday.text.toString().trim()
             val sex      = b.sexSpinner.selectedItem.toString()
 
-            val cursor = petsQueries.updatePet(idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
+            val cursor = petsQueries.updatePet(getUserInformation(), idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (cursor > 0) {
                 GlobalEventManager.onPetUpdateListener?.invoke()
@@ -169,6 +170,11 @@ class UpdatePetActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun getUserInformation() : Int {
+        val sessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
+        return sessionVars.getInt("id", 0)
     }
 
     // SAVE PHOTO
