@@ -99,7 +99,7 @@ class AddPetActivity : AppCompatActivity() {
             return false
         }
 
-        if (pesoStr <= 0) {
+        if (pesoStr <= 0 || pesoStr >= 100) {
             Messages.showError(Errors.ERROR_INVALID_WEIGHT)
             return false
         }

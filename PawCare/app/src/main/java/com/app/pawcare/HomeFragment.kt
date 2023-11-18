@@ -4,29 +4,28 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.view.ContextMenu
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.adapters.ViewPetsAdapter
-import com.app.pawcare.slqlite.PetsQueries
-import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.FragmentHomeBinding
+import com.app.pawcare.interfaces.OnItemChangedListener
+import com.app.pawcare.models.PetsModel
+import com.app.pawcare.slqlite.PetsQueries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeFragment : Fragment(){
+
+class HomeFragment : Fragment(), OnItemChangedListener {
     private lateinit var b: FragmentHomeBinding
     private lateinit var petsQueries: PetsQueries
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         b = FragmentHomeBinding.inflate(inflater, container, false)
         return b.root
     }
@@ -34,20 +33,10 @@ class HomeFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        b.settings.setOnClickListener {
-            val intent = Intent(requireActivity(), ProfileActivity::class.java)
-            requireActivity().startActivity(intent)
-        }
-
-        b.addPet.setOnClickListener {
-            val intent = Intent(requireActivity(), AddPetActivity::class.java)
-            requireActivity().startActivity(intent)
-            requireActivity().finish()
-        }
-
-        b.notifications.setOnClickListener {
-            val intent = Intent(requireActivity(), NotificationsActivity::class.java)
-            requireActivity().startActivity(intent)
+        b.apply {
+            settings.setOnClickListener      { loadProfileActivityIntent() }
+            addPet.setOnClickListener        { loadAddPetActivityIntent() }
+            notifications.setOnClickListener { loadNotificationsActivityIntent() }
         }
 
         petsQueries = PetsQueries(requireContext())
@@ -93,10 +82,43 @@ class HomeFragment : Fragment(){
     private fun updateRecyclerView(pets: List<PetsModel>) {
         val recyclerView: RecyclerView = requireView().findViewById(R.id.recyclerView)
         if (recyclerView.adapter == null) {
-            val adapter = ViewPetsAdapter(pets)
+            val adapter = ViewPetsAdapter(pets, this)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    override fun onItemChanged() {
+        println("Aaaaa")
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.recyclerView)
+        recyclerView.adapter = null
+        initView()
+    }
+
+    fun onItemChangedToActivities(){
+        println("Aaaaa")
+    }
+
+    /*
+        METHODS TO LOAD INTENT
+    */
+    private fun loadActivityIntent(destinationActivity: Class<*>) {
+        val intent = Intent(requireActivity(), destinationActivity)
+        requireActivity().startActivity(intent)
+    }
+
+    private fun loadProfileActivityIntent() {
+        loadActivityIntent(ProfileActivity::class.java)
+    }
+
+    private fun loadNotificationsActivityIntent() {
+        loadActivityIntent(NotificationsActivity::class.java)
+    }
+
+    private fun loadAddPetActivityIntent() {
+        val intent = Intent(requireActivity(), AddPetActivity::class.java)
+        requireActivity().startActivity(intent)
+        requireActivity().finish()
     }
 
     override fun onCreateContextMenu(

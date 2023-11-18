@@ -15,7 +15,6 @@ import com.app.pawcare.models.PetsTableModel
 import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
-import com.app.pawcare.utils.Successes
 import com.app.pawcare.utils.Utils
 import java.io.File
 import java.io.FileOutputStream
@@ -44,9 +43,11 @@ class UpdatePetActivity : AppCompatActivity() {
 
         Messages.setErrorView(b.errorMessage)
 
-        b.back.setOnClickListener     { loadHomeFragment() }
-        b.addImage.setOnClickListener { openGallery() }
-        b.save.setOnClickListener     { updatePet() }
+        b.apply {
+            back.setOnClickListener     { finish()}
+            addImage.setOnClickListener { openGallery() }
+            save.setOnClickListener     { updatePet() }
+        }
 
         petsQueries = PetsQueries(this)
 
@@ -57,12 +58,10 @@ class UpdatePetActivity : AppCompatActivity() {
         b.sexSpinner.adapter = adapter
         b.birthday.setOnClickListener { Utils.generateCalendar(b.birthday, this) }
 
-
         b.dog.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 selectedPetType = "Dog"
                 b.typePetSelected.text = resources.getString(R.string.type_pet_dog)
-
             }
         }
 
@@ -79,7 +78,7 @@ class UpdatePetActivity : AppCompatActivity() {
             idPet = petId
             loadFields(petId.toLong())
         } else {
-            loadHomeFragment()
+            finish()
         }
     }
 
@@ -106,8 +105,9 @@ class UpdatePetActivity : AppCompatActivity() {
                 else -> throw IllegalArgumentException("No found")
             }
 
-            b.urlImage.text = photo
             b.typePetSelected.text = txtTypePet
+            b.urlImage.text  = photo
+            selectedImageUri = photo
 
             val sexOptions = resources.getStringArray(R.array.sex_options)
             val sexPosition = sexOptions.indexOf(sex)
@@ -122,15 +122,16 @@ class UpdatePetActivity : AppCompatActivity() {
         if (validateFields() && selectedPetType != null) {
             val name     = b.namePet.text.toString().trim()
             val raza     = b.raza.text.toString().trim()
-            val peso     = b.peso.text.toString().trim().toIntOrNull() ?: 0
+            val peso     = b.peso.text.toString().trim().toInt()
             val birthday = b.birthday.text.toString().trim()
             val sex      = b.sexSpinner.selectedItem.toString()
 
             val cursor = petsQueries.updatePet(idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (cursor > 0) {
-                Messages.showSuccess(Successes.SUCCESS_DB_PETS)
-                loadHomeFragment()
+                val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout) as HomeFragment?
+                fragment?.onItemChangedToActivities()
+                finish()
             } else {
                 Messages.showError(Errors.ERROR_DB_PETS)
             }
@@ -138,18 +139,18 @@ class UpdatePetActivity : AppCompatActivity() {
     }
 
     private fun validateFields(): Boolean {
-        val name = b.namePet.text.toString().trim()
-        val raza = b.raza.text.toString().trim()
-        val pesoStr = b.peso.text.toString().trim().toIntOrNull() ?: 0
+        val name     = b.namePet.text.toString().trim()
+        val raza     = b.raza.text.toString().trim()
+        val pesoStr  = b.peso.text.toString().trim().toIntOrNull() ?: 0
         val birthday = b.birthday.text.toString().trim()
-        val sex = b.sexSpinner.selectedItem.toString()
+        val sex      = b.sexSpinner.selectedItem.toString()
 
         if (name.isEmpty() || birthday.isEmpty() || raza.isEmpty()) {
             Messages.showError(Errors.ERROR_DATA_EMPTY)
             return false
         }
 
-        if (pesoStr <= 0) {
+        if (pesoStr <= 0 || pesoStr >= 100) {
             Messages.showError(Errors.ERROR_INVALID_WEIGHT)
             return false
         }
@@ -160,16 +161,6 @@ class UpdatePetActivity : AppCompatActivity() {
         }
 
         return true
-    }
-
-    // LOAD VIEW
-
-    private fun loadHomeFragment(){
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        intent.putExtra("goToFragment", "HomeFragment")
-        startActivity(intent)
-        finish()
     }
 
     // SAVE PHOTO

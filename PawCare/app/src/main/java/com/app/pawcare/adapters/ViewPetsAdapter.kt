@@ -18,6 +18,7 @@ import com.app.pawcare.R
 import com.app.pawcare.UpdatePetActivity
 import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.PetItemBinding
+import com.app.pawcare.interfaces.OnItemChangedListener
 import com.app.pawcare.slqlite.PetsQueries
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -30,8 +31,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<ViewPetsAdapter.PetsViewHolder>() {
-    class PetsViewHolder(private val b: PetItemBinding, private val context: Context) : RecyclerView.ViewHolder(b.root) {
+class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: OnItemChangedListener) : RecyclerView.Adapter<ViewPetsAdapter.PetsViewHolder>() {
+    class PetsViewHolder(private val b: PetItemBinding, private val context: Context, private val listener: OnItemChangedListener) : RecyclerView.ViewHolder(b.root) {
 
         @OptIn(DelicateCoroutinesApi::class)
         fun bind(pet: PetsModel) {
@@ -54,8 +55,6 @@ class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<
                     println("Error: $e")
                 }
             }
-
-            println(pet.birthday)
 
             b.age.text  = HtmlCompat.fromHtml("<b>Edad: </b>${pet.birthday}", HtmlCompat.FROM_HTML_MODE_LEGACY)
             b.raza.text = HtmlCompat.fromHtml("<b>Raza: </b>${pet.raza}", HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -114,11 +113,13 @@ class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<
         private fun showDeleteConfirmationDialog(id: Int) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Confirmar eliminación")
-                .setMessage("¿Estás seguro de que deseas eliminar este elemento?")
+                .setMessage("¿Estás seguro de que deseas eliminar esta mascota?")
                 .setPositiveButton("Eliminar") { _, _ ->
+
                     val petsQueries = PetsQueries(context)
                     petsQueries.deletePet(id.toLong())
-                    Toast.makeText(context, "DELETE ITEM ID: $id", Toast.LENGTH_SHORT).show()
+                    listener.onItemChanged()
+
                 }.setNegativeButton("Cancelar") { _, _ ->
                     println("INFO: NO DELETE")
                 }.show()
@@ -128,16 +129,15 @@ class ViewPetsAdapter(private val list: List<PetsModel>) : RecyclerView.Adapter<
             println(id)
         }
 
-        private fun loadUpdatePetActivity(id: Int){
+        private fun loadUpdatePetActivity(id: Int) {
             val intent = Intent(context, UpdatePetActivity::class.java)
             intent.putExtra("id", id)
             context.startActivity(intent)
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetsViewHolder {
         val context = parent.context
-        return PetsViewHolder(PetItemBinding.inflate(LayoutInflater.from(context), parent, false), context)
+        return PetsViewHolder(PetItemBinding.inflate(LayoutInflater.from(context), parent, false), context, listener)
     }
 
     override fun getItemCount(): Int {
