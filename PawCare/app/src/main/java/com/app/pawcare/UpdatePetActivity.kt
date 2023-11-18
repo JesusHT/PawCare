@@ -17,6 +17,7 @@ import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
 import com.app.pawcare.utils.Utils
+import com.app.pawcare.utils.ValidateData
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -149,6 +150,11 @@ class UpdatePetActivity : AppCompatActivity() {
 
         if (name.isEmpty() || birthday.isEmpty() || raza.isEmpty()) {
             Messages.showError(Errors.ERROR_DATA_EMPTY)
+            return false
+        }
+
+        if (!ValidateData.isBirthDateValid(birthday)){
+            Messages.showError(Errors.ERROR_BIRTHDAY)
             return false
         }
 

@@ -1,5 +1,8 @@
 package com.app.pawcare.utils
 
+import android.annotation.SuppressLint
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.regex.Pattern
 class ValidateData {
     companion object {
@@ -22,6 +25,22 @@ class ValidateData {
 
         fun isValidConfirmation(password: String, confirmation: String): Boolean {
             return password == confirmation
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun isBirthDateValid(birthday: String): Boolean {
+            val currentDate = Calendar.getInstance().time
+
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val birthDate  = dateFormat.parse(birthday)
+
+            return birthDate != null && !birthDate.after(currentDate)
+        }
+
+        fun validateFieldsPets(
+
+        ){
+
         }
 
     }

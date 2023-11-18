@@ -1,11 +1,13 @@
 package com.app.pawcare.adapters
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +29,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -45,6 +49,7 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
             }
             b.Name.setTextColor(ContextCompat.getColor(context, textColorResource))
 
+            calculateAge(pet.birthday)
 
             val imageName = pet.photo
             GlobalScope.launch(Dispatchers.Main) {
@@ -56,7 +61,6 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
                 }
             }
 
-            b.age.text  = HtmlCompat.fromHtml("<b>Edad: </b>${pet.birthday}", HtmlCompat.FROM_HTML_MODE_LEGACY)
             b.raza.text = HtmlCompat.fromHtml("<b>Raza: </b>${pet.raza}", HtmlCompat.FROM_HTML_MODE_LEGACY)
             b.peso.text = HtmlCompat.fromHtml("<b>Peso: </b>${pet.peso} kg", HtmlCompat.FROM_HTML_MODE_LEGACY)
             b.sex.text  = HtmlCompat.fromHtml("<b>Sexo: </b>${pet.sex}", HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -83,6 +87,36 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
                     } catch (e: Exception) { continuation.resumeWithException(e) }
                 } else { continuation.resumeWithException(IllegalArgumentException("Error: No found")) }
             }
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        private fun calculateAge(birthday: String) {
+            val currentDate = Calendar.getInstance().time
+
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val birthDate = dateFormat.parse(birthday)
+
+            val differenceInMillis = currentDate.time - birthDate!!.time
+            val differenceInDays = (differenceInMillis / (24 * 60 * 60 * 1000)).toInt()
+
+            val years = differenceInDays / 365
+            val months = (differenceInDays % 365) / 30
+            val days = differenceInDays % 30
+
+            val date = when {
+                years  > 0 && months > 0 -> "$years años y $months meses"
+                months > 0 && days > 0 -> "$months meses y $days días"
+                days > 0 -> "$days días"
+                else -> "0 dias"
+            }
+
+            val formattedAge = if (date.isNotEmpty()) {
+                "<b>Edad: </b>$date"
+            } else {
+                "<b>Edad: </b>No disponible"
+            }
+
+            b.age.text = HtmlCompat.fromHtml(formattedAge, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
         private fun showContextMenu(view: View, id: Int) {
@@ -121,7 +155,7 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
                     listener.onItemChanged()
 
                 }.setNegativeButton("Cancelar") { _, _ ->
-                    println("INFO: NO DELETE")
+                    Log.d("DELETE PET",  "NO DELETE")
                 }.show()
         }
 

@@ -23,6 +23,7 @@ class Errors {
         const val ERROR_UPDATE_PASSWORD    = "Hubo un problema al actualizar la contraseña. Intente de nuevo"
         const val ERROR_INVALID_WEIGHT     = "Valor no valido, el peso debe ser mayor a 0."
         const val ERROR_SELECT_SEX         = "Debe elegir el sexo de la mascota"
+        const val ERROR_BIRTHDAY           = "La fecha es invalida"
 
 
         //DB ERRORS
