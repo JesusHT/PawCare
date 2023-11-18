@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.adapters.ViewPetsAdapter
 import com.app.pawcare.databinding.FragmentHomeBinding
+import com.app.pawcare.interfaces.GlobalEventManager
 import com.app.pawcare.interfaces.OnItemChangedListener
 import com.app.pawcare.models.PetsModel
 import com.app.pawcare.slqlite.PetsQueries
@@ -42,6 +43,8 @@ class HomeFragment : Fragment(), OnItemChangedListener {
         petsQueries = PetsQueries(requireContext())
         initView()
         b.recyclerView.setOnCreateContextMenuListener(this)
+
+        GlobalEventManager.onPetUpdateListener = { onItemChanged() }
     }
 
     private fun initView() {
@@ -93,6 +96,7 @@ class HomeFragment : Fragment(), OnItemChangedListener {
         recyclerView.adapter = null
         initView()
     }
+
     /*
         METHODS TO LOAD INTENT
     */
@@ -110,9 +114,7 @@ class HomeFragment : Fragment(), OnItemChangedListener {
     }
 
     private fun loadAddPetActivityIntent() {
-        val intent = Intent(requireActivity(), AddPetActivity::class.java)
-        requireActivity().startActivity(intent)
-        requireActivity().finish()
+        loadActivityIntent(AddPetActivity::class.java)
     }
 
     override fun onCreateContextMenu(

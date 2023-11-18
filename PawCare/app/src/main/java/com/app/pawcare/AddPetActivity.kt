@@ -11,10 +11,10 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityAddpetBinding
+import com.app.pawcare.interfaces.GlobalEventManager
 import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
-import com.app.pawcare.utils.Successes
 import com.app.pawcare.utils.Utils
 import java.io.File
 import java.io.FileOutputStream
@@ -42,7 +42,7 @@ class AddPetActivity : AppCompatActivity() {
         Messages.setErrorView(b.errorMessage)
 
         b.save.setOnClickListener     { savePet() }
-        b.back.setOnClickListener     { loadHomeFragment() }
+        b.back.setOnClickListener     { finish() }
         b.birthday.setOnClickListener { Utils.generateCalendar(b.birthday,this) }
         b.addImage.setOnClickListener { openGallery() }
 
@@ -79,8 +79,8 @@ class AddPetActivity : AppCompatActivity() {
             val newRowId = petsQueries.insertPet(name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (newRowId > 0) {
-                Messages.showSuccess(Successes.SUCCESS_DB_PETS)
-                loadHomeFragment()
+                GlobalEventManager.onPetUpdateListener?.invoke()
+                finish()
             } else {
                 Messages.showError(Errors.ERROR_DB_PETS)
             }
@@ -110,16 +110,6 @@ class AddPetActivity : AppCompatActivity() {
         }
 
         return true
-    }
-
-    // LOAD VIEW
-
-    private fun loadHomeFragment(){
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        intent.putExtra("goToFragment", "HomeFragment")
-        startActivity(intent)
-        finish()
     }
 
     // SAVE PHOTO

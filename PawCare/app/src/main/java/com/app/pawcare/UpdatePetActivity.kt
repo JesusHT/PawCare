@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityAddpetBinding
+import com.app.pawcare.interfaces.GlobalEventManager
 import com.app.pawcare.models.PetsTableModel
 import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
@@ -27,6 +28,7 @@ class UpdatePetActivity : AppCompatActivity() {
     private lateinit var petsQueries: PetsQueries
     private var selectedImageUri: String? = null
     private var selectedPetType: String? = null
+
     private var idPet: Int = 0
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -42,6 +44,7 @@ class UpdatePetActivity : AppCompatActivity() {
         setContentView(b.root)
 
         Messages.setErrorView(b.errorMessage)
+        b.title.text = resources.getString(R.string.update_pet_title)
 
         b.apply {
             back.setOnClickListener     { finish()}
@@ -129,6 +132,7 @@ class UpdatePetActivity : AppCompatActivity() {
             val cursor = petsQueries.updatePet(idPet.toLong(), name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (cursor > 0) {
+                GlobalEventManager.onPetUpdateListener?.invoke()
                 finish()
             } else {
                 Messages.showError(Errors.ERROR_DB_PETS)
