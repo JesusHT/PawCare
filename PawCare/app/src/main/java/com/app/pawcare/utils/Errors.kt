@@ -25,8 +25,11 @@ class Errors {
         const val ERROR_SELECT_SEX         = "Debe elegir el sexo de la mascota"
         const val ERROR_BIRTHDAY           = "La fecha es invalida"
 
+        const val ERROR_SELECT_OPTION_REMINDER = "Debe elegir el tipo de recordatorio"
+        const val ERROR_SELECT_OPTION_PET      = "Debe elegir una mascota"
 
         //DB ERRORS
-        const val ERROR_DB_PETS = "Ah ocurrido un error. Intentalo de nuevo."
+        const val ERROR_DB_PETS          = "Ah ocurrido un error. Intentalo de nuevo."
+        const val ERROR_DB_NOTIFICATIONS = "Ah ocurrido un error. Intentalo de nuevo."
     }
 }

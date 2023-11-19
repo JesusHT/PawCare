@@ -85,9 +85,10 @@
     <!-- REMINDERS ACTIVITY -->
     <string name="reminders_title">Añadir nuevo recordatorio</string>
     <string name="reminders_txt_title">Titulo del recordatorio</string>
-    <string name="reminders_txt_description">Descripcion (Opcional)</string>
+    <string name="reminders_txt_description">Descripcion </string>
     <string name="reminders_txt_date">Elige la fecha</string>
     <string name="reminders_txt_time">Elige la hora</string>
+    <string name="reminders_txt_cancel">Cancelar</string>
 
     <string name="reminders_txt_spinner">Elige la mascota</string>
     <!-- HOME ACTIVITY -->

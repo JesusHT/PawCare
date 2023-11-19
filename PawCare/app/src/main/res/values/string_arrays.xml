@@ -8,8 +8,7 @@
 
     <string-array name="remainders_options">
         <item>Seleccione el tipo de recordatorio</item>
-        <item>Alimento/Bebida</item>
-        <item>Cita Medica</item>
+        <item>Cita medica</item>
         <item>Desparacitación</item>
         <item>Vacunas</item>
     </string-array>
