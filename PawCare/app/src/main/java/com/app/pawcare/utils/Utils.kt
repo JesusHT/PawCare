@@ -1,9 +1,13 @@
 package com.app.pawcare.utils
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.EditText
+import com.app.pawcare.R
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class Utils {
     companion object {
@@ -23,12 +27,34 @@ class Utils {
             val month = calendar.get(Calendar.MONTH)
             val day   = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog = DatePickerDialog(context, { _, selectedYear, selectedMonth, selectedDay ->
+            val datePickerDialog = DatePickerDialog(context,
+                R.style.DateTimePicker,
+                { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                 birthdayEditText.setText(selectedDate)
             }, year, month, day)
 
             datePickerDialog.show()
+        }
+
+        fun showTimePickerDialog(timer : EditText, context: Context) {
+            val calendar = Calendar.getInstance()
+            val timePickerDialog = TimePickerDialog(
+                context,
+                R.style.DateTimePicker,
+                { _, hourOfDay, minute ->
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    calendar.set(Calendar.MINUTE, minute)
+
+                    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                    timer.setText(timeFormat.format(calendar.time))
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            )
+
+            timePickerDialog.show()
         }
 
     }

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Personaliza tu tema claro aquí -->
+
+    </style>
+
+    <!-- DatePicker TimePicker -->
+    <style name="DateTimePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/secondary</item>
+        <item name="android:textColorPrimary">@color/primary</item>
+        <item name="android:textColorSecondary">@color/secondary</item>
+    </style>
+
+    <!-- CALENDAR -->
+    <style name="DatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerStyle">@color/black</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textColorPrimary">@color/primary</item>
+        <item name="colorControlActivated">@color/primary</item>
     </style>
 </resources>

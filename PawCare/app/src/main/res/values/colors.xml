@@ -9,4 +9,5 @@
     <color name="yellow">#F4D160</color>
     <color name="error">#cc0605</color>
     <color name="success">#00a135</color>
+    <color name="bg_calendar">#E4ECF1</color>
 </resources>

@@ -84,7 +84,12 @@
 
     <!-- REMINDERS ACTIVITY -->
     <string name="reminders_title">Añadir nuevo recordatorio</string>
+    <string name="reminders_txt_title">Titulo del recordatorio</string>
+    <string name="reminders_txt_description">Descripcion (Opcional)</string>
+    <string name="reminders_txt_date">Elige la fecha</string>
+    <string name="reminders_txt_time">Elige la hora</string>
 
+    <string name="reminders_txt_spinner">Elige la mascota</string>
     <!-- HOME ACTIVITY -->
     <string name="home_description_settings_icon">Setting icon</string>
     <string name="home_description_notifications_icon">Notifications icon</string>
@@ -105,6 +110,12 @@
 
     <!-- UPDATE PET ACTIVITY -->
     <string name="update_pet_title">Actualizar información de mascota</string>
+
+    <!-- CALENDAR ACTIVITY -->
+    <string name="calendar_title">Recordatorios</string>
+    <string name="calendar_description_icon">Notification type icon</string>
+    <string name="calendar_txt_title">Title - Pet</string>
+    <string name="calendar_txt_description">Description</string>
 
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>

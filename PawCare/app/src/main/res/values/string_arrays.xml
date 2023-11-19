@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex_options">
+        <item>Seleccione el sexo de su mascota</item>
+        <item>Hembra</item>
+        <item>Macho</item>
+    </string-array>
+
+    <string-array name="remainders_options">
+        <item>Seleccione el tipo de recordatorio</item>
+        <item>Alimento/Bebida</item>
+        <item>Cita Medica</item>
+        <item>Desparacitación</item>
+        <item>Vacunas</item>
+    </string-array>
+</resources>

@@ -46,6 +46,27 @@ class PetsQueries(context: Context) {
         )
     }
 
+    // SELECT PET's NAMES BY IdOwner
+    fun getNamesPetByOwnerId(ownerId: Int): Cursor {
+        val db = dbHelper.readableDatabase
+        val projection = arrayOf(
+            PetsTableModel.PetEntry.COLUMN_ID,
+            PetsTableModel.PetEntry.COLUMN_NAME
+        )
+        val selection = "${PetsTableModel.PetEntry.COLUMN_OWNER_ID} = ?"
+        val selectionArgs = arrayOf(ownerId.toString())
+
+        return db.query(
+            PetsTableModel.PetEntry.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+    }
+
     // SELECT PET BY ID
     fun getPetById(id: Long): Cursor {
         val db = dbHelper.readableDatabase

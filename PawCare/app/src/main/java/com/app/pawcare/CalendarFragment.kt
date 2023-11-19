@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.app.pawcare.databinding.FragmentCalendarBinding
 
 class CalendarFragment : Fragment() {
@@ -26,5 +27,21 @@ class CalendarFragment : Fragment() {
             val intent = Intent(requireActivity(), RemindersActivity::class.java)
             requireActivity().startActivity(intent)
         }
+
+        val datePicker = b.calendar
+
+        datePicker.init(
+            datePicker.year,
+            datePicker.month,
+            datePicker.dayOfMonth
+        ) { _, year, monthOfYear, dayOfMonth ->
+            val dateSelected = "$year-${monthOfYear + 1}-$dayOfMonth"
+            showToast("Fecha seleccionada: $dateSelected")
+        }
+
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

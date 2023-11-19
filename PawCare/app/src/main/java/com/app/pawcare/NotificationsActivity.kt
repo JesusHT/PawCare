@@ -13,7 +13,6 @@ class NotificationsActivity : AppCompatActivity() {
         setContentView(b.root)
 
         b.back.setOnClickListener {
-            onBackPressed()
             finish()
         }
     }
