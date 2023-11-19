@@ -52,7 +52,7 @@ class CalendarFragment : Fragment() {
             val dateSelected = "$year-${monthOfYear + 1}-$dayOfMonth"
             showToast("Fecha seleccionada: $dateSelected")
         }
-
+        initNotificationView()
         EventNotificationsManager.onNotificationChangedListener = { onNotificationChanged() }
     }
 
@@ -104,7 +104,6 @@ class CalendarFragment : Fragment() {
         recyclerView.adapter = null
         initNotificationView()
     }
-
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
