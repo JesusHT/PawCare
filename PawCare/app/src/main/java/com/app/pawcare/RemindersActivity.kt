@@ -1,6 +1,10 @@
 package com.app.pawcare
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +14,12 @@ import com.app.pawcare.slqlite.NotificationsQueries
 import com.app.pawcare.slqlite.PetsQueries
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
+import com.app.pawcare.utils.NotificationReceiver
 import com.app.pawcare.utils.Utils
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class RemindersActivity : AppCompatActivity() {
     lateinit var b : ActivityRemindersBinding
@@ -71,9 +80,10 @@ class RemindersActivity : AppCompatActivity() {
             val time             = b.timer.text.toString().trim()
 
             val notificationsQueries = NotificationsQueries(this)
-            val newRowId = notificationsQueries.insertNotification(petId, title, description, typeNotification, date, time)
+            val newRowId             = notificationsQueries.insertNotification(petId, title, description, typeNotification, date, time)
 
             if (newRowId > 0) {
+                setNotification(time, date, description, title, newRowId.toInt())
                 EventNotificationsManager.onNotificationChangedListener?.invoke()
                 finish()
             } else {
@@ -113,5 +123,37 @@ class RemindersActivity : AppCompatActivity() {
         return sessionVars.getInt("id", 0)
     }
 
+    @SuppressLint("ServiceCast", "ScheduleExactAlarm")
+    private fun setNotification(time:String, dateN: String, message: String, title :String, id : Int){
+        val dateTimeString = "$time $dateN"
+
+        val dateFormat = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
+
+        try {
+            val date = dateFormat.parse(dateTimeString)
+
+            if (date != null) {
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+
+                val intent = Intent(this, NotificationReceiver::class.java)
+
+                intent.putExtra("notificationId", id)
+                intent.putExtra("message", message)
+                intent.putExtra("title", title)
+
+                val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+    }
 
 }

@@ -11,6 +11,9 @@ class ViewCalendarNotificationsAdapter(private val list: List<NotificationsModel
     class NotificationsViewHolder(private val b: CalendarNotificationItemBinding, private val context: Context) : RecyclerView.ViewHolder(b.root){
         fun bind(notification: NotificationsModel){
             b.title.text = notification.title
+
+            println(notification.date)
+            println(notification.time)
         }
     }
 
