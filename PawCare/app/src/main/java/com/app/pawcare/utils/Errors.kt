@@ -27,6 +27,7 @@ class Errors {
 
         const val ERROR_SELECT_OPTION_REMINDER = "Debe elegir el tipo de recordatorio"
         const val ERROR_SELECT_OPTION_PET      = "Debe elegir una mascota"
+        const val ERROR_DATE                   = "La fecha no puede ser dias anteriores"
 
         //DB ERRORS
         const val ERROR_DB_PETS          = "Ah ocurrido un error. Intentalo de nuevo."
