@@ -86,6 +86,9 @@
             android:name=".UpdatePetActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".PetProfileActivity"
+            android:exported="false">
+        </activity>
     </application>
-
 </manifest>

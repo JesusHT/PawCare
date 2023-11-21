@@ -118,6 +118,9 @@
     <string name="calendar_txt_title">Title - Pet</string>
     <string name="calendar_txt_description">Description</string>
 
+    <!-- PET PROFILE ACTIVITY -->
+    <string name="pet_profile_title">Recordatorios de Max</string>
+
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>
     <string name="wifi_txt_info">No hay conexión a internet</string>

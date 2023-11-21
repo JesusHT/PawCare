@@ -47,7 +47,6 @@ class ForgotActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private suspend fun validateEmail(email: String): Boolean{

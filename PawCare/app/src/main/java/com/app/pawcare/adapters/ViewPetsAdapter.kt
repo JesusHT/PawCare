@@ -12,10 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.app.pawcare.PetProfileActivity
 import com.app.pawcare.R
 import com.app.pawcare.UpdatePetActivity
 import com.app.pawcare.models.PetsModel
@@ -135,7 +135,6 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
                         }
                         R.id.see -> {
                             initView(id)
-                            Toast.makeText(context, "VER ITEM ID: $id", Toast.LENGTH_SHORT).show()
                             true
                         }
                         else -> false
@@ -160,7 +159,9 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
         }
 
         private fun initView(id: Int) {
-            println(id)
+            val intent = Intent(context, PetProfileActivity::class.java)
+            intent.putExtra("id", id)
+            context.startActivity(intent)
         }
 
         private fun loadUpdatePetActivity(id: Int) {
