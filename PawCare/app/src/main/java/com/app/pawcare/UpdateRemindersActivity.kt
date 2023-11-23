@@ -2,6 +2,7 @@
 
     import android.annotation.SuppressLint
     import android.app.AlarmManager
+    import android.app.NotificationManager
     import android.app.PendingIntent
     import android.content.Context
     import android.content.Intent
@@ -10,7 +11,6 @@
     import android.widget.ArrayAdapter
     import androidx.annotation.RequiresApi
     import androidx.appcompat.app.AppCompatActivity
-    import androidx.core.app.NotificationManagerCompat
     import com.app.pawcare.R.string.update_reminder_title
     import com.app.pawcare.databinding.ActivityRemindersBinding
     import com.app.pawcare.interfaces.EventNotificationsManager
@@ -62,12 +62,12 @@
                 back.setOnClickListener { finish() }
                 cancel.setOnClickListener {
                     cancelNotification(notificationId)
-                    notificationsQueries.deleteNotificationByPetId(notificationId.toLong())
+                    notificationsQueries.deleteNotification(notificationId.toLong())
                     EventNotificationsManager.onNotificationChangedListener?.invoke()
                     finish()
                 }
                 titleMain.text = resources.getString(update_reminder_title)
-                b.cancel.text  = resources.getString(R.string.update_reminder_button_delete)
+                cancel.text    = resources.getString(R.string.update_reminder_button_delete)
                 save.setOnClickListener { updateNotification() }
             }
         }
@@ -239,8 +239,9 @@
             }
         }
 
+        @SuppressLint("ServiceCast")
         private fun cancelNotification(notificationId: Int) {
-            val notificationManager = NotificationManagerCompat.from(this)
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.cancel(notificationId)
         }
 

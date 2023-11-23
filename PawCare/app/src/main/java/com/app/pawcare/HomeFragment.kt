@@ -123,6 +123,8 @@ class HomeFragment : Fragment(), OnItemChangedListener {
 
         if (ids.size > 0){
             b.notifications.setImageResource(R.drawable.baseline_notifications_active_24)
+        }else {
+            b.notifications.setImageResource(R.drawable.baseline_notifications_24)
         }
     }
 
