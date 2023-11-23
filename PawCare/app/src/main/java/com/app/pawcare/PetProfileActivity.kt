@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -15,8 +17,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.app.pawcare.adapters.ViewCalendarNotificationsAdapter
 import com.app.pawcare.databinding.ActivityPetProfileBinding
+import com.app.pawcare.interfaces.EventNotificationsManager
 import com.app.pawcare.interfaces.GlobalEventManager
+import com.app.pawcare.models.NotificationsModel
 import com.app.pawcare.models.PetsTableModel
 import com.app.pawcare.slqlite.NotificationsQueries
 import com.app.pawcare.slqlite.PetsQueries
@@ -35,6 +42,7 @@ import kotlin.coroutines.suspendCoroutine
 class PetProfileActivity : AppCompatActivity() {
     lateinit var b : ActivityPetProfileBinding
     private lateinit var petsQueries: PetsQueries
+    private lateinit var notificationsQueries: NotificationsQueries
     private var petId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +51,14 @@ class PetProfileActivity : AppCompatActivity() {
         setContentView(b.root)
 
         petsQueries = PetsQueries(this)
+        notificationsQueries = NotificationsQueries(this)
 
         b.back.setOnClickListener { finish() }
+        b.addReminder.setOnClickListener {
+            val intent = Intent(this, RemindersActivity::class.java)
+            intent.putExtra("petId", petId)
+            startActivity(intent)
+        }
 
         val id = intent.getIntExtra("id", -1)
 
@@ -58,6 +72,9 @@ class PetProfileActivity : AppCompatActivity() {
         b.menu.setOnClickListener { v ->
             showContextMenu(v,id)
         }
+
+        initNotificationView()
+        EventNotificationsManager.onNotificationChangedListener = { onNotificationChanged() }
     }
 
     private fun showContextMenu(view: View, id: Int) {
@@ -190,5 +207,54 @@ class PetProfileActivity : AppCompatActivity() {
         }
 
         b.age.text = HtmlCompat.fromHtml(formattedAge, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun initNotificationView() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            val notifications = getNotificationsFromDatabase()
+            updateNotificationRecyclerView(notifications)
+        }
+    }
+
+    private suspend fun getNotificationsFromDatabase(): List<NotificationsModel> {
+        return withContext(Dispatchers.IO) {
+            val notificationsCursor = notificationsQueries.getNotificationsByPetId(petId)
+            return@withContext parseNotificationsCursorToList(notificationsCursor)
+        }
+    }
+
+    private fun parseNotificationsCursorToList(cursor: Cursor): List<NotificationsModel> {
+        val notificationsList = mutableListOf<NotificationsModel>()
+
+        while (cursor.moveToNext()) {
+            val idNotification   = cursor.getInt(cursor.getColumnIndexOrThrow("idNotification"))
+            val idPet            = cursor.getInt(cursor.getColumnIndexOrThrow("idPet"))
+            val title            = cursor.getString(cursor.getColumnIndexOrThrow("title"))
+            val description      = cursor.getString(cursor.getColumnIndexOrThrow("description"))
+            val typeNotification = cursor.getString(cursor.getColumnIndexOrThrow("typeNotification"))
+            val date             = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+            val time             = cursor.getString(cursor.getColumnIndexOrThrow("time"))
+
+            val notification = NotificationsModel(idNotification, idPet, title, description, typeNotification, date, time)
+            notificationsList.add(notification)
+        }
+
+        cursor.close()
+        return notificationsList
+    }
+
+    private fun updateNotificationRecyclerView(notifications: List<NotificationsModel>) {
+        val recyclerView: RecyclerView = this.findViewById(R.id.notificationRecyclerView)
+        if (recyclerView.adapter == null) {
+            val adapter = ViewCalendarNotificationsAdapter(notifications)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(this)
+        }
+    }
+
+    private fun onNotificationChanged() {
+        val recyclerView: RecyclerView = this.findViewById(R.id.notificationRecyclerView)
+        recyclerView.adapter = null
+        initNotificationView()
     }
 }

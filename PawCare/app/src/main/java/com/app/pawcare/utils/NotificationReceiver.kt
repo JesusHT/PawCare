@@ -56,6 +56,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
         val intent = Intent(context, NotificationsActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.putExtra("notificationId", notificationId)
 
         val pendingIntent = PendingIntent.getActivity(
             context,

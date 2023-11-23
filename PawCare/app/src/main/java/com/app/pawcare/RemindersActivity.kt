@@ -80,6 +80,18 @@ class RemindersActivity : AppCompatActivity() {
         val adapterNotifications = ArrayAdapter(this, R.layout.sex_spinner_item, remaindersOptions)
         adapterNotifications.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         b.typeNotification.adapter = adapterNotifications
+
+        val id = intent.getIntExtra("petId", -1)
+
+        if (id != -1) {
+            val position = petNameIdMap.values.indexOf(id)
+
+            if (position != -1) {
+                val spinnerPosition = position + 1
+                b.pets.setSelection(spinnerPosition)
+                b.pets.isEnabled = false
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
