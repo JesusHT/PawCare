@@ -3,7 +3,6 @@ package com.app.pawcare
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,14 +114,5 @@ class HomeFragment : Fragment(), OnItemChangedListener {
 
     private fun loadAddPetActivityIntent() {
         loadActivityIntent(AddPetActivity::class.java)
-    }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        requireActivity().menuInflater.inflate(R.menu.contextual_menu, menu)
-        super.onCreateContextMenu(menu, v, menuInfo)
     }
 }

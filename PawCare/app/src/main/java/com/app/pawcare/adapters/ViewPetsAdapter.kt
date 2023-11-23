@@ -3,7 +3,6 @@ package com.app.pawcare.adapters
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -160,9 +159,6 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
                 }.setNegativeButton("Cancelar") { _, _ ->
                     Log.d("DELETE PET",  "NO DELETE")
                 }.show()
-
-            val positiveButton = builder.show().getButton(DialogInterface.BUTTON_POSITIVE)
-            positiveButton.setTextColor(ContextCompat.getColor(context, R.color.error))
         }
 
         private fun initView(id: Int) {
