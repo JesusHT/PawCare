@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,23 +48,24 @@ class CalendarFragment : Fragment() {
             datePicker.month,
             datePicker.dayOfMonth
         ) { _, year, monthOfYear, dayOfMonth ->
-            val dateSelected = "$year-${monthOfYear + 1}-$dayOfMonth"
-            showToast("Fecha seleccionada: $dateSelected")
+            val dateSelected = "$dayOfMonth/${monthOfYear + 1}/$year"
+            onNotificationDateChanged(dateSelected)
         }
-        initNotificationView()
+
+        initNotificationView(getDate())
         EventNotificationsManager.onNotificationChangedListener = { onNotificationChanged() }
     }
 
-    private fun initNotificationView() {
+    private fun initNotificationView(date : String) {
         lifecycleScope.launch(Dispatchers.Main) {
-            val notifications = getNotificationsFromDatabase()
+            val notifications = getNotificationsFromDatabase(date)
             updateNotificationRecyclerView(notifications)
         }
     }
 
-    private suspend fun getNotificationsFromDatabase(): List<NotificationsModel> {
+    private suspend fun getNotificationsFromDatabase(date : String): List<NotificationsModel> {
         return withContext(Dispatchers.IO) {
-            val notificationsCursor = notificationsQueries.getAllNotifications()
+            val notificationsCursor = notificationsQueries.getNotificationsByDate(date)
             return@withContext parseNotificationsCursorToList(notificationsCursor)
         }
     }
@@ -102,10 +102,22 @@ class CalendarFragment : Fragment() {
     private fun onNotificationChanged() {
         val recyclerView: RecyclerView = requireView().findViewById(R.id.notificationRecyclerView)
         recyclerView.adapter = null
-        initNotificationView()
+        initNotificationView(getDate())
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun onNotificationDateChanged(date: String) {
+        val recyclerView: RecyclerView = requireView().findViewById(R.id.notificationRecyclerView)
+        recyclerView.adapter = null
+        initNotificationView(date)
+    }
+
+    private fun getDate() : String {
+        val datePicker = b.calendar
+
+        val defaultYear = datePicker.year
+        val defaultMonth = datePicker.month
+        val defaultDayOfMonth = datePicker.dayOfMonth
+
+        return "$defaultDayOfMonth/${defaultMonth + 1}/$defaultYear"
     }
 }

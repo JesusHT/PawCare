@@ -19,7 +19,6 @@ class ProfileActivity : AppCompatActivity() {
         getUserInformation()
 
         b.back.setOnClickListener {
-            onBackPressed()
             finish()
         }
 

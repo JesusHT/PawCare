@@ -29,8 +29,8 @@
 
                 <ImageView
                     android:id="@+id/typeNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:padding="5dp"
                     android:src="@drawable/baseline_favorite_24"
                     android:contentDescription="@string/calendar_description_icon" />

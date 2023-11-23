@@ -120,6 +120,8 @@
 
     <!-- PET PROFILE ACTIVITY -->
     <string name="pet_profile_title">Recordatorios de Max</string>
+    <string name="pet_profile_description_type">Pet type icon</string>
+    <string name="pet_profile_description_delete">Delete icon</string>
 
     <!-- WIFI TEMPLATE -->
     <string name="wifi_description_wifi_icon">Wifi icon</string>

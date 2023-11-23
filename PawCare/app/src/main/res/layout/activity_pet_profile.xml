@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".PetProfileActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -10,8 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end"
-        android:background="@drawable/rounded_bottom_corners"
-        tools:ignore="UselessParent">
+        android:background="@drawable/rounded_bottom_corners">
 
         <ImageButton
             android:id="@+id/back"
@@ -22,21 +23,173 @@
             android:contentDescription="@string/description_arrow_back"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:padding="10dp">
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="@string/pet_profile_title"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
+
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/baseline_more_vert_24"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/pet_profile_description_delete"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/card"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/pet_description_see_more"
+                    android:scaleType="centerCrop"
+                    tools:ignore="MissingConstraints,RedundantDescriptionCheck"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <ImageView
+                    android:id="@+id/iconPet"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/icon_cat"
+                    android:padding="5dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintVertical_bias="0.1"
+                    android:contentDescription="@string/pet_profile_description_type"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/raza"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/pet_txt_raza"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/peso"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/pet_txt_peso"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/age"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/pet_txt_age"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/sex"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/pet_txt_sex"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/titleReminders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/calendar_title"
+            android:textSize="19sp"
+            android:textColor="@color/primary"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notificationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/calendar_notification_item"/>
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:src="@drawable/baseline_add_24"
+        app:fab_size="normal"
+        tools:ignore="ImageContrastCheck,SpeakableTextPresentCheck" />
 
 </RelativeLayout>

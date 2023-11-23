@@ -8,6 +8,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityRemindersBinding
@@ -58,9 +60,14 @@ class RemindersActivity : AppCompatActivity() {
 
         while (cursor.moveToNext()) {
             val displayName = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow("idPet"))
+            val id          = cursor.getInt(cursor.getColumnIndexOrThrow("idPet"))
             petNameIdMap[displayName] = id
             petNames.add(displayName)
+        }
+
+        if (petNames.size <= 1){
+            Toast.makeText(this, Errors.ERROR_PETS, LENGTH_SHORT).show()
+            finish()
         }
 
         val adapter = ArrayAdapter(this, R.layout.sex_spinner_item, petNames)
@@ -89,7 +96,7 @@ class RemindersActivity : AppCompatActivity() {
             val newRowId             = notificationsQueries.insertNotification(petId, title, description, typeNotification, date, time)
 
             if (newRowId > 0) {
-                setNotification(time, date, description, title, newRowId.toInt())
+                setNotification(time, date, description, title, newRowId.toInt(), typeNotification)
                 EventNotificationsManager.onNotificationChangedListener?.invoke()
                 finish()
             } else {
@@ -133,9 +140,7 @@ class RemindersActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun validateDate(date: String): Boolean {
         val currentDate = LocalDate.now()
-
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
         val parsedDate = LocalDate.parse(date, formatter)
 
         return parsedDate.isEqual(currentDate) || parsedDate.isAfter(currentDate)
@@ -147,9 +152,8 @@ class RemindersActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ServiceCast", "ScheduleExactAlarm")
-    private fun setNotification(time:String, dateN: String, message: String, title :String, id : Int){
+    private fun setNotification(time:String, dateN: String, message: String, title :String, id : Int, typeNotification: String){
         val dateTimeString = "$time $dateN"
-
         val dateFormat = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
 
         try {
@@ -164,6 +168,7 @@ class RemindersActivity : AppCompatActivity() {
                 intent.putExtra("notificationId", id)
                 intent.putExtra("message", message)
                 intent.putExtra("title", title)
+                intent.putExtra("typeNotification", typeNotification)
 
                 val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
                 val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager

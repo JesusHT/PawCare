@@ -125,4 +125,12 @@ class NotificationsQueries(context: Context) {
 
         return db.delete(NotificationsTableModel.NotificationEntry.TABLE_NAME, selection, selectionArgs)
     }
+
+    fun deleteNotificationByPetId(petId: Long): Int {
+        val db = dbHelper.writableDatabase
+        val selection = "${NotificationsTableModel.NotificationEntry.COLUMN_PET_ID} = ?"
+        val selectionArgs = arrayOf(petId.toString())
+
+        return db.delete(NotificationsTableModel.NotificationEntry.TABLE_NAME, selection, selectionArgs)
+    }
 }

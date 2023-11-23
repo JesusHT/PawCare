@@ -3,6 +3,7 @@ package com.app.pawcare.adapters
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -21,6 +22,7 @@ import com.app.pawcare.UpdatePetActivity
 import com.app.pawcare.models.PetsModel
 import com.app.pawcare.databinding.PetItemBinding
 import com.app.pawcare.interfaces.OnItemChangedListener
+import com.app.pawcare.slqlite.NotificationsQueries
 import com.app.pawcare.slqlite.PetsQueries
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -146,16 +148,21 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
         private fun showDeleteConfirmationDialog(id: Int) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Confirmar eliminación")
-                .setMessage("¿Estás seguro de que deseas eliminar esta mascota?")
+                .setMessage("¿Estás seguro de que deseas eliminar esta mascota? Ten en cuenta que también se eliminarán sus recordatorios. Esta acción es irreversible.")
                 .setPositiveButton("Eliminar") { _, _ ->
 
                     val petsQueries = PetsQueries(context)
+                    val notificationsQueries = NotificationsQueries(context)
                     petsQueries.deletePet(id.toLong())
+                    notificationsQueries.deleteNotificationByPetId(id.toLong())
                     listener.onItemChanged()
 
                 }.setNegativeButton("Cancelar") { _, _ ->
                     Log.d("DELETE PET",  "NO DELETE")
                 }.show()
+
+            val positiveButton = builder.show().getButton(DialogInterface.BUTTON_POSITIVE)
+            positiveButton.setTextColor(ContextCompat.getColor(context, R.color.error))
         }
 
         private fun initView(id: Int) {

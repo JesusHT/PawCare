@@ -88,8 +88,6 @@ class CaptchaActivity : AppCompatActivity() {
         val result     = JsonPostQuery(Config.URL_CREATE_PASSWORD, postData).execute()
         val jsonObject = JSONObject(result)
 
-        println(jsonObject.optString("password"))
-
         return jsonObject.optBoolean("status")
     }
 
@@ -116,7 +114,6 @@ class CaptchaActivity : AppCompatActivity() {
         val result     = JsonPostQuery(Config.URL_CAPTCHA, postData).execute()
 
         code = result
-        println(code)
     }
 
     private fun createNewCode(){
