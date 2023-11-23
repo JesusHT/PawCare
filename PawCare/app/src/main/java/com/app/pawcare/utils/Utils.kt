@@ -3,8 +3,15 @@ package com.app.pawcare.utils
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import android.widget.EditText
 import com.app.pawcare.R
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -55,6 +62,22 @@ class Utils {
             )
 
             timePickerDialog.show()
+        }
+
+        fun saveFileToLocal(uri: Uri, displayName: String, context: Context) {
+            val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+            val outputFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), displayName)
+
+            try {
+                val outputStream: OutputStream = FileOutputStream(outputFile)
+                inputStream?.copyTo(outputStream, bufferSize = 4 * 1024)
+                outputStream.flush()
+                outputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                inputStream?.close()
+            }
         }
 
     }

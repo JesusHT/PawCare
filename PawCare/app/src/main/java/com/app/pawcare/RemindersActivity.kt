@@ -16,6 +16,7 @@ import com.app.pawcare.databinding.ActivityRemindersBinding
 import com.app.pawcare.interfaces.EventNotificationsManager
 import com.app.pawcare.slqlite.NotificationsQueries
 import com.app.pawcare.slqlite.PetsQueries
+import com.app.pawcare.users.SessionManager
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
 import com.app.pawcare.utils.NotificationReceiver
@@ -53,7 +54,7 @@ class RemindersActivity : AppCompatActivity() {
 
     private fun loadSpinners(){
         val petsQueries = PetsQueries(this)
-        val cursor = petsQueries.getNamesPetByOwnerId(getUserInformation())
+        val cursor = petsQueries.getNamesPetByOwnerId(SessionManager.getUserInformation(this))
 
         val petNames = mutableListOf<String>()
         petNames.add(resources.getString(R.string.reminders_txt_spinner))
@@ -140,15 +141,10 @@ class RemindersActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun validateDate(date: String): Boolean {
         val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val parsedDate = LocalDate.parse(date, formatter)
+        val formatter   = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val parsedDate  = LocalDate.parse(date, formatter)
 
         return parsedDate.isEqual(currentDate) || parsedDate.isAfter(currentDate)
-    }
-
-    private fun getUserInformation() : Int {
-        val sessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
-        return sessionVars.getInt("id", 0)
     }
 
     @SuppressLint("ServiceCast", "ScheduleExactAlarm")

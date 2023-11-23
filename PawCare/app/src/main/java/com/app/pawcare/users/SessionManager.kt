@@ -28,4 +28,9 @@ object SessionManager {
         editor.remove("id")
         editor.apply()
     }
+
+    fun getUserInformation(context: Context) : Int {
+        val sessionVars = context.getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
+        return sessionVars.getInt("id", 0)
+    }
 }

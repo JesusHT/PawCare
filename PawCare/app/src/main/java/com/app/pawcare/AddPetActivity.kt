@@ -2,11 +2,8 @@ package com.app.pawcare
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.OpenableColumns
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,15 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.pawcare.databinding.ActivityAddpetBinding
 import com.app.pawcare.interfaces.GlobalEventManager
 import com.app.pawcare.slqlite.PetsQueries
+import com.app.pawcare.users.SessionManager
 import com.app.pawcare.utils.Errors
 import com.app.pawcare.utils.Messages
 import com.app.pawcare.utils.Utils
 import com.app.pawcare.utils.ValidateData
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 class AddPetActivity : AppCompatActivity() {
     private lateinit var b : ActivityAddpetBinding
@@ -78,7 +71,7 @@ class AddPetActivity : AppCompatActivity() {
             val sex      = b.sexSpinner.selectedItem.toString()
 
             val petsQueries = PetsQueries(this)
-            val newRowId = petsQueries.insertPet(getUserInformation(),name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
+            val newRowId = petsQueries.insertPet(SessionManager.getUserInformation(this),name, raza, selectedImageUri.toString(), peso, sex, birthday, selectedPetType!!)
 
             if (newRowId > 0) {
                 GlobalEventManager.onPetUpdateListener?.invoke()
@@ -119,12 +112,6 @@ class AddPetActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getUserInformation() : Int {
-        val sessionVars = getSharedPreferences("SessionVars", Context.MODE_PRIVATE)
-        return sessionVars.getInt("id", 0)
-    }
-
-
     // SAVE PHOTO
 
     private fun openGallery() {
@@ -146,25 +133,9 @@ class AddPetActivity : AppCompatActivity() {
                     b.urlImage.text = displayName
                     selectedImageUri = displayName
 
-                    saveFileToLocal(selectedFileUri, displayName)
+                    Utils.saveFileToLocal(selectedFileUri, displayName, this)
                 }
             }
-        }
-    }
-
-    private fun saveFileToLocal(uri: Uri, displayName: String) {
-        val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val outputFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), displayName)
-
-        try {
-            val outputStream: OutputStream = FileOutputStream(outputFile)
-            inputStream?.copyTo(outputStream, bufferSize = 4 * 1024)
-            outputStream.flush()
-            outputStream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            inputStream?.close()
         }
     }
 }
