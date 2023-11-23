@@ -112,6 +112,10 @@
     <!-- UPDATE PET ACTIVITY -->
     <string name="update_pet_title">Actualizar información de mascota</string>
 
+    <!-- UPDATE REMINDER ACTIVITY -->
+    <string name="update_reminder_title">Actualizar recordatorio</string>
+    <string name="update_reminder_button_delete">Eliminar</string>
+
     <!-- CALENDAR ACTIVITY -->
     <string name="calendar_title">Recordatorios</string>
     <string name="calendar_description_icon">Notification type icon</string>

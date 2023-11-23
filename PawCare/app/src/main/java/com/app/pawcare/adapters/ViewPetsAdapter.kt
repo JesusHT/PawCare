@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -152,14 +153,31 @@ class ViewPetsAdapter(private val list: List<PetsModel>,  private val listener: 
 
                     val petsQueries = PetsQueries(context)
                     val notificationsQueries = NotificationsQueries(context)
-                    petsQueries.deletePet(id.toLong())
+
+                    val cursor = notificationsQueries.getNotificationsByPetId(id)
+
+                    while (cursor.moveToNext()) {
+                        val notificationId = cursor.getInt(cursor.getColumnIndexOrThrow("idNotification"))
+
+                        cancelNotification(notificationId)
+                    }
+
+                    cursor.close()
+
                     notificationsQueries.deleteNotificationByPetId(id.toLong())
+                    petsQueries.deletePet(id.toLong())
                     listener.onItemChanged()
 
                 }.setNegativeButton("Cancelar") { _, _ ->
-                    Log.d("DELETE PET",  "NO DELETE")
+                    Log.d("DELETE PET", "NO DELETE")
                 }.show()
         }
+
+        private fun cancelNotification(notificationId: Int) {
+            val notificationManager = NotificationManagerCompat.from(context)
+            notificationManager.cancel(notificationId)
+        }
+
 
         private fun initView(id: Int) {
             val intent = Intent(context, PetProfileActivity::class.java)

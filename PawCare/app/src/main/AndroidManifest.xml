@@ -90,5 +90,9 @@
             android:name=".PetProfileActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".UpdateRemindersActivity"
+            android:exported="false">
+        </activity>
     </application>
 </manifest>

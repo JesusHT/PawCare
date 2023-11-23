@@ -23,8 +23,8 @@ class NotificationsQueries(context: Context) {
         return db.insert(NotificationsTableModel.NotificationEntry.TABLE_NAME, null, values)
     }
 
-    // SELECT NOTIFICATIONS
-    fun getAllNotifications(): Cursor {
+    // SELECT NOTIFICATIONS NY ID
+    fun getNotificationsByID(id: Long): Cursor {
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
             NotificationsTableModel.NotificationEntry.COLUMN_ID,
@@ -36,9 +36,17 @@ class NotificationsQueries(context: Context) {
             NotificationsTableModel.NotificationEntry.COLUMN_TIME
         )
 
+        val selection = "${NotificationsTableModel.NotificationEntry.COLUMN_ID} = ?"
+        val selectionArgs = arrayOf(id.toString())
+
         return db.query(
             NotificationsTableModel.NotificationEntry.TABLE_NAME,
-            projection, null, null, null, null, null
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
         )
     }
 

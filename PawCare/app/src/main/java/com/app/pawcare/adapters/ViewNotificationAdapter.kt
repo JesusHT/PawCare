@@ -1,28 +1,28 @@
 package com.app.pawcare.adapters
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.app.pawcare.R
-import com.app.pawcare.UpdateRemindersActivity
-import com.app.pawcare.databinding.CalendarNotificationItemBinding
+import com.app.pawcare.databinding.NotificationItemBinding
+import com.app.pawcare.interfaces.EventNotificationsManager
 import com.app.pawcare.models.NotificationsModel
 import com.app.pawcare.models.PetsTableModel
+import com.app.pawcare.slqlite.NotificationsQueries
 import com.app.pawcare.slqlite.PetsQueries
 
-class ViewCalendarNotificationsAdapter(private val list: List<NotificationsModel>) : RecyclerView.Adapter<ViewCalendarNotificationsAdapter.NotificationsViewHolder>(){
-    class NotificationsViewHolder(private val b: CalendarNotificationItemBinding, private val context: Context) : RecyclerView.ViewHolder(b.root){
-
+class ViewNotificationAdapter(private val context: Context, private val list: List<NotificationsModel>) : RecyclerView.Adapter<ViewNotificationAdapter.NotificationViewHolder>(){
+    class NotificationViewHolder(private val b: NotificationItemBinding, private val context: Context) : RecyclerView.ViewHolder(b.root) {
         data class PetInfo(val name: String, val typePet: String)
         @SuppressLint("SetTextI18n")
         fun bind(notification: NotificationsModel){
             val petData = getPetData(notification.idPet.toLong())
 
-            b.title.text       = "${notification.title} - ${petData?.name}"
-            b.description.text = notification.description
+            b.title.text = "${notification.title} - ${petData?.name}"
 
             val typeIconResource = when (Pair(petData?.typePet, notification.typeNotification)) {
                 Pair("Cat", "Cita médica")     -> R.drawable.baseline_blue_hospital_24
@@ -35,19 +35,9 @@ class ViewCalendarNotificationsAdapter(private val list: List<NotificationsModel
             }
 
             b.typeNotification.setImageResource(typeIconResource)
-
-            b.item.setOnClickListener {
-                updateNotification(notification.idNotification)
-            }
         }
 
-        private fun updateNotification(id: Int) {
-            val intent = Intent(context, UpdateRemindersActivity::class.java)
-            intent.putExtra("notificationId", id)
-            context.startActivity(intent)
-        }
-
-       private fun getPetData(id: Long) : PetInfo? {
+        private fun getPetData(id: Long) : PetInfo? {
             val petsQueries = PetsQueries(context)
             var petInfo: PetInfo? = null
             val cursor = petsQueries.getPetById(id)
@@ -64,16 +54,34 @@ class ViewCalendarNotificationsAdapter(private val list: List<NotificationsModel
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val context = parent.context
-        return NotificationsViewHolder(CalendarNotificationItemBinding.inflate(LayoutInflater.from(context), parent, false), context)
+        return NotificationViewHolder(
+            NotificationItemBinding.inflate(LayoutInflater.from(context), parent, false),
+            context
+        )
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         holder.bind(list[position])
+    }
+
+    fun deleteItem(position: Int) {
+        val deletedItemId = list[position].idNotification
+
+        val notificationsQueries = NotificationsQueries(context)
+        notificationsQueries.deleteNotification(deletedItemId.toLong())
+        cancelNotification(deletedItemId)
+
+        EventNotificationsManager.onNotificationChangedListener?.invoke()
+    }
+
+    private fun cancelNotification(notificationId: Int) {
+        val notificationManager = getSystemService(context, NotificationManager::class.java)
+        notificationManager?.cancel(notificationId)
     }
 }
